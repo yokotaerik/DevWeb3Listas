@@ -14,12 +14,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.springframework.hateoas.RepresentationModel;
+import lombok.Data;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
+@Data
 @Entity
 public class Cliente extends RepresentationModel<Cliente>{
 	@Id
