@@ -2,6 +2,9 @@ package com.autobots.automanager;
 
 import java.util.Calendar;
 
+import com.autobots.automanager.repositorios.DocumentoRepositorio;
+import com.autobots.automanager.repositorios.EnderecoRepositorio;
+import com.autobots.automanager.repositorios.TelefoneRepostorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -25,7 +28,13 @@ public class AutomanagerApplication {
 	@Component
 	public static class Runner implements ApplicationRunner {
 		@Autowired
-		public ClienteRepositorio repositorio;
+		public ClienteRepositorio clienteRepositorio;
+		@Autowired
+		public DocumentoRepositorio documentoRepositorio;
+		@Autowired
+		public TelefoneRepostorio telefoneRepostorio;
+		@Autowired
+		public EnderecoRepositorio enderecoRepositorio;
 
 		@Override
 		public void run(ApplicationArguments args) throws Exception {
@@ -64,7 +73,7 @@ public class AutomanagerApplication {
 			cliente.getDocumentos().add(rg);
 			cliente.getDocumentos().add(cpf);
 
-			repositorio.save(cliente);
+			clienteRepositorio.save(cliente);
 		}
 	}
 }

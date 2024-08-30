@@ -29,7 +29,7 @@ public class ClienteControle {
 	private AdicionadorLinkCliente adicionadorLink;
 
 	@GetMapping("/cliente/{id}")
-	public ResponseEntity<Cliente> obterCliente(@PathVariable long id) {
+		public ResponseEntity<Cliente> obterCliente(@PathVariable long id) {
 		List<Cliente> clientes = repositorio.findAll();
 		Cliente cliente = selecionador.selecionar(clientes, id);
 		if (cliente == null) {
