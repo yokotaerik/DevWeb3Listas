@@ -1,5 +1,6 @@
 package com.autobots.automanager.controles;
 
+import com.autobots.automanager.dtos.telefone.CadastroTelefoneDTO;
 import com.autobots.automanager.entidades.Empresa;
 import com.autobots.automanager.entidades.Telefone;
 import com.autobots.automanager.entidades.Usuario;
@@ -57,10 +58,14 @@ public class TelefoneControle {
 	}
 
 	@PostMapping("/cadastro/cliente")
-	public ResponseEntity<?> cadastrarTelefoneCliente(@RequestBody Telefone telefone, @RequestBody Long clienteId) {
-		Optional<Usuario> usuarioOptional = usuarioRepositorio.findById(clienteId);
+	public ResponseEntity<?> cadastrarTelefoneCliente(@RequestBody CadastroTelefoneDTO data){
+		Optional<Usuario> usuarioOptional = usuarioRepositorio.findById(data.getClienteId());
 
 		if (usuarioOptional.isPresent()) {
+			var telefone = new Telefone();
+			telefone.setDdd(data.getDdd());
+			telefone.setNumero(data.getNumero());
+
 			Usuario usuario = usuarioOptional.get();
 			usuario.getTelefones().add(telefone);
 			telefoneRepositorio.save(telefone);
@@ -73,10 +78,14 @@ public class TelefoneControle {
 	}
 
 	@PostMapping("/cadastro/empresa")
-	public ResponseEntity<?> cadastrarTelefoneEmpresa(@RequestBody Telefone telefone, @RequestBody Long empresaId) {
-		Optional<Empresa> empresaOptional = empresaRepositorio.findById(empresaId);
+	public ResponseEntity<?> cadastrarTelefoneEmpresa(@RequestBody CadastroTelefoneDTO data) {
+		Optional<Empresa> empresaOptional = empresaRepositorio.findById(data.getEmpresaId());
 
 		if (empresaOptional.isPresent()) {
+			var telefone = new Telefone();
+			telefone.setDdd(data.getDdd());
+			telefone.setNumero(data.getNumero());
+
 			Empresa empresa = empresaOptional.get();
 			empresa.getTelefones().add(telefone);
 			telefoneRepositorio.save(telefone);

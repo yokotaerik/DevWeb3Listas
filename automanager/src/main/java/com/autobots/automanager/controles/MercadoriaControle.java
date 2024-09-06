@@ -1,5 +1,6 @@
 package com.autobots.automanager.controles;
 
+import com.autobots.automanager.dtos.mercadoria.CadastroMercadoriaDTO;
 import com.autobots.automanager.entidades.Mercadoria;
 import com.autobots.automanager.modelos.adicionadorLinks.AdicionadorLinkMercadoria;
 import com.autobots.automanager.modelos.atualizador.MercadoriaAtualizador;
@@ -52,10 +53,19 @@ public class MercadoriaControle {
 	}
 
 	@PostMapping("/cadastro")
-	public ResponseEntity<?> cadastrarMercadoria(@RequestBody Mercadoria mercadoria, @RequestBody Long empresaId) throws Exception {
-		var empresa = empresaRepositorio.findById(empresaId);
+	public ResponseEntity<?> cadastrarMercadoria(@RequestBody CadastroMercadoriaDTO data) throws Exception {
+		var empresa = empresaRepositorio.findById(data.getEmpresaId());
 
 		if(empresa.isPresent()){
+			var mercadoria = new Mercadoria();
+			mercadoria.setNome(data.getNome());
+			mercadoria.setQuantidade(data.getQuantidade());
+			mercadoria.setValor(data.getValor());
+			mercadoria.setDescricao(data.getDescricao());
+			mercadoria.setCadastro(data.getCadastro());
+			mercadoria.setFabricao(data.getFabricao());
+			mercadoria.setValidade(data.getValidade());
+
 			var empresaDb = empresa.get();
 			empresaDb.getMercadorias().add(mercadoria);
 			mercadoriaRepositorio.save(mercadoria);

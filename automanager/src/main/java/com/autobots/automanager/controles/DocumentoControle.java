@@ -1,5 +1,6 @@
 package com.autobots.automanager.controles;
 
+import com.autobots.automanager.dtos.documento.CadastroDocumentoDTO;
 import com.autobots.automanager.entidades.Documento;
 import com.autobots.automanager.entidades.Usuario;
 import com.autobots.automanager.modelos.adicionadorLinks.AdicionadorLinkDocumento;
@@ -50,17 +51,20 @@ public class DocumentoControle {
 	}
 
 	@PostMapping("/cadastro")
-	public ResponseEntity<?> cadastrarDocumento(@RequestBody Documento documento, @RequestBody Long clienteId) {
-		Usuario cliente = usuarioRepositorio.getById(clienteId);
-		if(cliente == null){
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
-		} else {
-			cliente.getDocumentos().add(documento);
-			documentoRepositorio.save(documento);
-			usuarioRepositorio.save(cliente);
-			adicionadorLinkDocumento.adicionarLink(documento);
-			return ResponseEntity.status(HttpStatus.CREATED).body(documento);
-		}
+	public ResponseEntity<?> cadastrarDocumento(@RequestBody CadastroDocumentoDTO data) {
+		Usuario cliente = usuarioRepositorio.findById(data.getClienteId()).orElseThrow(
+				() -> new RuntimeException("Cliente não encontrado"));
+
+		var documento = new Documento();
+		documento.setTipo(data.getTipo());
+		documento.setDataEmissao(data.getDataEmissao());
+		documento.setNumero(data.getNumero());
+
+		cliente.getDocumentos().add(documento);
+		documentoRepositorio.save(documento);
+		usuarioRepositorio.save(cliente);
+		adicionadorLinkDocumento.adicionarLink(documento);
+		return ResponseEntity.status(HttpStatus.CREATED).body(documento);
 	}
 
 	@PutMapping("/atualizar")

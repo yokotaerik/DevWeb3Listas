@@ -1,5 +1,6 @@
 package com.autobots.automanager.controles;
 
+import com.autobots.automanager.dtos.servico.CadastroServicoDTO;
 import com.autobots.automanager.entidades.Servico;
 import com.autobots.automanager.modelos.adicionadorLinks.AdicionadorLinkServico;
 import com.autobots.automanager.modelos.atualizador.ServicoAtualizador;
@@ -52,8 +53,13 @@ public class ServicoControle {
 	}
 
 	@PostMapping("/cadastro")
-	public ResponseEntity<?> cadastrarServico(@RequestBody Servico servico, @RequestBody Long empresaId) throws Exception {
-		var empresa = empresaRepositorio.findById(empresaId).orElseThrow(() -> new Exception("Empresa não encontrada"));
+	public ResponseEntity<?> cadastrarServico(@RequestBody CadastroServicoDTO data) throws Exception {
+		var empresa = empresaRepositorio.findById(data.getEmpresaId()).orElseThrow(() -> new Exception("Empresa não encontrada"));
+
+		var servico = new Servico();
+		servico.setNome(data.getNome());
+		servico.setValor(data.getValor());
+		servico.setDescricao(data.getDescricao());
 
 		empresa.getServicos().add(servico);
 
