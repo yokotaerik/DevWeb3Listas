@@ -8,8 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.autobots.automanager.enumeracoes.TipoDocumento;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.springframework.hateoas.RepresentationModel;
@@ -17,14 +15,22 @@ import org.springframework.hateoas.RepresentationModel;
 @Data
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Documento extends RepresentationModel<Documento> {
+public class Mercadoria extends RepresentationModel<Mercadoria> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(nullable = false)
-	private TipoDocumento tipo;
+	private Date validade;
 	@Column(nullable = false)
-	private Date dataEmissao;
-	@Column(unique = true, nullable = false)
-	private String numero;
+	private Date fabricao;
+	@Column(nullable = false)
+	private Date cadastro;
+	@Column(nullable = false)
+	private String nome;
+	@Column(nullable = false)
+	private long quantidade;
+	@Column(nullable = false)
+	private double valor;
+	@Column()
+	private String descricao;
 }

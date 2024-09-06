@@ -14,11 +14,11 @@ import org.springframework.hateoas.RepresentationModel;
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Telefone extends RepresentationModel<Telefone> {
-	@Id()
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column
+	@Column(nullable = false)
 	private String ddd;
-	@Column
+	@Column(nullable = false)
 	private String numero;
 }

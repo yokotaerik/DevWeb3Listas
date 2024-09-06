@@ -1,11 +1,11 @@
 package com.autobots.automanager.controles;
 
-import com.autobots.automanager.entidades.Cliente;
 import com.autobots.automanager.entidades.Documento;
-import com.autobots.automanager.modelos.AdicionadorLinkDocumento;
-import com.autobots.automanager.modelos.DocumentoAtualizador;
-import com.autobots.automanager.repositorios.ClienteRepositorio;
+import com.autobots.automanager.entidades.Usuario;
+import com.autobots.automanager.modelos.adicionadorLinks.AdicionadorLinkDocumento;
+import com.autobots.automanager.modelos.atualizador.DocumentoAtualizador;
 import com.autobots.automanager.repositorios.DocumentoRepositorio;
+import com.autobots.automanager.repositorios.UsuarioRepostorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import java.util.List;
 public class DocumentoControle {
 
 	@Autowired
-	private ClienteRepositorio clienteRepositorio;
+	private UsuarioRepostorio usuarioRepositorio;
 	@Autowired
 	private DocumentoRepositorio documentoRepositorio;
 	@Autowired
@@ -51,13 +51,13 @@ public class DocumentoControle {
 
 	@PostMapping("/cadastro")
 	public ResponseEntity<?> cadastrarDocumento(@RequestBody Documento documento, @RequestBody Long clienteId) {
-		Cliente cliente = clienteRepositorio.getById(clienteId);
+		Usuario cliente = usuarioRepositorio.getById(clienteId);
 		if(cliente == null){
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
 		} else {
 			cliente.getDocumentos().add(documento);
 			documentoRepositorio.save(documento);
-			clienteRepositorio.save(cliente);
+			usuarioRepositorio.save(cliente);
 			adicionadorLinkDocumento.adicionarLink(documento);
 			return ResponseEntity.status(HttpStatus.CREATED).body(documento);
 		}
