@@ -3,7 +3,7 @@ package com.autobots.automanager.controles;
 import com.autobots.automanager.entidades.Veiculo;
 import com.autobots.automanager.modelos.adicionadorLinks.AdicionadorLinkVeiculo;
 import com.autobots.automanager.modelos.atualizador.VeiculoAtualizador;
-import com.autobots.automanager.repositorios.UsuarioRepostorio;
+import com.autobots.automanager.repositorios.UsuarioRepositorio;
 import com.autobots.automanager.repositorios.VeiculoRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,7 @@ public class VeiculoControle {
 	private VeiculoRepositorio veiculoRepositorio;
 
 	@Autowired
-	private UsuarioRepostorio usuarioRepositorio;
+	private UsuarioRepositorio usuarioRepositorio;
 
 	@Autowired
 	private AdicionadorLinkVeiculo adicionadorLinkVeiculo;

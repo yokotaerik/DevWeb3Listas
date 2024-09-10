@@ -6,7 +6,7 @@ import com.autobots.automanager.entidades.Usuario;
 import com.autobots.automanager.modelos.adicionadorLinks.AdicionadorLinkDocumento;
 import com.autobots.automanager.modelos.atualizador.DocumentoAtualizador;
 import com.autobots.automanager.repositorios.DocumentoRepositorio;
-import com.autobots.automanager.repositorios.UsuarioRepostorio;
+import com.autobots.automanager.repositorios.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ import java.util.List;
 public class DocumentoControle {
 
 	@Autowired
-	private UsuarioRepostorio usuarioRepositorio;
+	private UsuarioRepositorio usuarioRepositorio;
 	@Autowired
 	private DocumentoRepositorio documentoRepositorio;
 	@Autowired

@@ -5,7 +5,7 @@ import com.autobots.automanager.entidades.Email;
 import com.autobots.automanager.modelos.adicionadorLinks.AdicionadorLinkEmail;
 import com.autobots.automanager.modelos.atualizador.EmailAtualizador;
 import com.autobots.automanager.repositorios.EmailRepositorio;
-import com.autobots.automanager.repositorios.UsuarioRepostorio;
+import com.autobots.automanager.repositorios.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import java.util.List;
 public class EmailControle {
 
 	@Autowired
-	private UsuarioRepostorio usuarioRepositorio;
+	private UsuarioRepositorio usuarioRepositorio;
 	@Autowired
 	private EmailRepositorio emailRepositorio;
 	@Autowired

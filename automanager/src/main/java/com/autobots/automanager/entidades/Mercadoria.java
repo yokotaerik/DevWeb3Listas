@@ -2,12 +2,10 @@ package com.autobots.automanager.entidades;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.springframework.hateoas.RepresentationModel;
@@ -33,4 +31,9 @@ public class Mercadoria extends RepresentationModel<Mercadoria> {
 	private double valor;
 	@Column()
 	private String descricao;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "venda_id")
+	@JsonIgnore
+	private Venda venda;
 }

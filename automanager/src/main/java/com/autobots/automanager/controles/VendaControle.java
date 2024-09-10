@@ -1,5 +1,6 @@
 package com.autobots.automanager.controles;
 
+import com.autobots.automanager.dtos.venda.CadastroVendaDTO;
 import com.autobots.automanager.entidades.Venda;
 import com.autobots.automanager.modelos.adicionadorLinks.AdicionadorLinkVenda;
 import com.autobots.automanager.repositorios.*;
@@ -15,7 +16,7 @@ import java.util.List;
 public class VendaControle {
 
 	@Autowired
-	private UsuarioRepostorio usuarioRepositorio;
+	private UsuarioRepositorio usuarioRepositorio;
 	@Autowired
 	private VendaRepositorio vendaRepositorio;
 	@Autowired
@@ -51,26 +52,30 @@ public class VendaControle {
 	}
 
 	@PostMapping("/cadastro")
-	public ResponseEntity<?> cadastrarVenda(@RequestBody Venda venda,
-											@RequestParam Long clienteId,
-											@RequestParam Long funcionarioId,
-											@RequestParam Long veiculoId,
-											@RequestParam List<Long> mercadoriasId,
-											@RequestParam List<Long> servicosId) {
-		var cliente = usuarioRepositorio.findById(clienteId)
+	public ResponseEntity<?> cadastrarVenda(@RequestBody CadastroVendaDTO data) {
+		var cliente = usuarioRepositorio.findById(data.getClienteId())
 				.orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
-		var funcionario = usuarioRepositorio.findById(funcionarioId)
+		var funcionario = usuarioRepositorio.findById(data.getFuncionarioId())
 				.orElseThrow(() -> new RuntimeException("Funcionário não encontrado"));
-		var veiculo = veiculoRepositorio.findById(veiculoId)
-				.orElseThrow(() -> new RuntimeException("Veículo não encontrado"));
 
-		for (Long id : mercadoriasId) {
+
+		var venda = new Venda();
+		venda.setCadastro(data.getCadastro());
+		venda.setIdentificacao(data.getIdentificacao());
+
+		if(!data.getServicosId().isEmpty()){
+			var veiculo = veiculoRepositorio.findById(data.getVeiculoId())
+					.orElseThrow(() -> new RuntimeException("Veículo não encontrado"));
+			venda.setVeiculo(veiculo);
+		}
+
+		for (Long id : data.getMercadoriasId()) {
 			var mercadoria = mercadoriaRepositorio.findById(id)
 					.orElseThrow(() -> new RuntimeException("Mercadoria não encontrada"));
 			venda.getMercadorias().add(mercadoria);
 		}
 
-		for (Long id : servicosId) {
+		for (Long id : data.getServicosId()) {
 			var servico = servicoRepositorio.findById(id)
 					.orElseThrow(() -> new RuntimeException("Serviço não encontrado"));
 			venda.getServicos().add(servico);
@@ -78,7 +83,6 @@ public class VendaControle {
 
 		venda.setCliente(cliente);
 		venda.setFuncionario(funcionario);
-		venda.setVeiculo(veiculo);
 		vendaRepositorio.save(venda);
 		adicionadorLinkVenda.adicionarLink(venda);
 		return ResponseEntity.status(HttpStatus.CREATED).body(venda);

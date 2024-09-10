@@ -8,7 +8,7 @@ import com.autobots.automanager.modelos.adicionadorLinks.AdicionadorLinkTelefone
 import com.autobots.automanager.modelos.atualizador.TelefoneAtualizador;
 import com.autobots.automanager.repositorios.EmpresaRepositorio;
 import com.autobots.automanager.repositorios.TelefoneRepostorio;
-import com.autobots.automanager.repositorios.UsuarioRepostorio;
+import com.autobots.automanager.repositorios.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ import java.util.Optional;
 public class TelefoneControle {
 
 	@Autowired
-	private UsuarioRepostorio usuarioRepositorio;
+	private UsuarioRepositorio usuarioRepositorio;
 	@Autowired
 	private TelefoneRepostorio telefoneRepositorio;
 	@Autowired

@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
+import com.autobots.automanager.enumeracoes.TipoCredencial;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
@@ -27,4 +28,10 @@ public abstract class Credencial {
 	private Date ultimoAcesso;
 	@Column(nullable = false)
 	private boolean inativo;
+	@Column
+	private TipoCredencial tipo;
+
+	public Credencial() {
+
+	}
 }

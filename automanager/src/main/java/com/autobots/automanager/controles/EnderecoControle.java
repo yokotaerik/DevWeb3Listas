@@ -8,7 +8,7 @@ import com.autobots.automanager.modelos.adicionadorLinks.AdicionadorLinkEndereco
 import com.autobots.automanager.modelos.atualizador.EnderecoAtualizador;
 import com.autobots.automanager.repositorios.EmpresaRepositorio;
 import com.autobots.automanager.repositorios.EnderecoRepositorio;
-import com.autobots.automanager.repositorios.UsuarioRepostorio;
+import com.autobots.automanager.repositorios.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ import java.util.Optional;
 public class EnderecoControle {
 
 	@Autowired
-	private UsuarioRepostorio usuarioRepositorio;
+	private UsuarioRepositorio usuarioRepositorio;
 	@Autowired
 	private EnderecoRepositorio enderecoRepositorio;
 	@Autowired
