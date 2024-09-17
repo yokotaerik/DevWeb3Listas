@@ -122,8 +122,8 @@ public class EnderecoControle {
 		return ResponseEntity.status(HttpStatus.OK).body(enderecoDb);
 	}
 
-	@DeleteMapping("/excluir")
-	public ResponseEntity<?> excluirEndereco(@RequestBody Long id) {
+	@DeleteMapping("/excluir/{id}")
+	public ResponseEntity<?> excluirEndereco(@PathVariable Long id) {
 		try{
 			enderecoRepositorio.deleteById(id);
 			return ResponseEntity.status(HttpStatus.OK).body("Endereço excluído com sucesso");

@@ -14,6 +14,9 @@ public class CredencialCodigoBarraAtualizador {
             if (!verificador.verificar(String.valueOf(atualizacao.getCodigo()))) {
                 credencial.setCodigo(atualizacao.getCodigo());
             }
+            if (atualizacao.getInativo()) {
+                credencial.setInativo(atualizacao.getInativo());
+            }
         }
     }
 

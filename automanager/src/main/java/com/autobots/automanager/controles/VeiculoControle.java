@@ -1,5 +1,6 @@
 package com.autobots.automanager.controles;
 
+import com.autobots.automanager.dtos.veiculo.CadastroVeiculoDTO;
 import com.autobots.automanager.entidades.Veiculo;
 import com.autobots.automanager.modelos.adicionadorLinks.AdicionadorLinkVeiculo;
 import com.autobots.automanager.modelos.atualizador.VeiculoAtualizador;
@@ -52,10 +53,15 @@ public class VeiculoControle {
 	}
 
 	@PostMapping("/cadastro")
-	public ResponseEntity<?> cadastrarVeiculo(@RequestBody Veiculo veiculo, @RequestParam Long usuarioId) throws Exception {
-		var usuario = usuarioRepositorio.findById(usuarioId);
+	public ResponseEntity<?> cadastrarVeiculo(@RequestBody CadastroVeiculoDTO data) throws Exception {
+		var usuario = usuarioRepositorio.findById(data.getIdProprietario());
 
 		if(usuario.isPresent()){
+			var veiculo = new Veiculo();
+			veiculo.setModelo(data.getModelo());
+			veiculo.setPlaca(data.getPlaca());
+			veiculo.setTipo(data.getTipo());
+
 			var usuarioDb = usuario.get();
 			usuarioDb.getVeiculos().add(veiculo);
 			veiculoRepositorio.save(veiculo);
@@ -79,8 +85,8 @@ public class VeiculoControle {
 		return ResponseEntity.status(HttpStatus.OK).body(veiculoDb);
 	}
 
-	@DeleteMapping("/excluir")
-	public ResponseEntity<?> excluirVeiculo(@RequestBody Long id) {
+	@DeleteMapping("/excluir/{id}")
+	public ResponseEntity<?> excluirVeiculo(@PathVariable Long id) {
 		try {
 			veiculoRepositorio.deleteById(id);
 			return ResponseEntity.status(HttpStatus.OK).body("Veiculo excluído com sucesso");

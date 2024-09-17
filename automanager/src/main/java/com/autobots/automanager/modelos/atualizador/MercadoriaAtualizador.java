@@ -17,9 +17,6 @@ public class MercadoriaAtualizador {
 			if (!verificador.verificar(atualizacao.getDescricao())) {
 				mercadoria.setDescricao(atualizacao.getDescricao());
 			}
-			if (mercadoria.getCadastro() != null) {
-					mercadoria.setCadastro(atualizacao.getCadastro());
-			}
 			if (mercadoria.getValidade() != null) {
 				mercadoria.setValidade(atualizacao.getValidade());
 			}

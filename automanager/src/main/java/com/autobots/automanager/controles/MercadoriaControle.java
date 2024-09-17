@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -62,7 +63,7 @@ public class MercadoriaControle {
 			mercadoria.setQuantidade(data.getQuantidade());
 			mercadoria.setValor(data.getValor());
 			mercadoria.setDescricao(data.getDescricao());
-			mercadoria.setCadastro(data.getCadastro());
+			mercadoria.setCadastro(new Date());
 			mercadoria.setFabricao(data.getFabricao());
 			mercadoria.setValidade(data.getValidade());
 
@@ -89,8 +90,8 @@ public class MercadoriaControle {
 		return ResponseEntity.status(HttpStatus.OK).body(mercadoriaDb);
 	}
 
-	@DeleteMapping("/excluir")
-	public ResponseEntity<?> excluirMercadoria(@RequestBody Long id) {
+	@DeleteMapping("/excluir/{id}")
+	public ResponseEntity<?> excluirMercadoria(@PathVariable Long id) {
 		try {
 			mercadoriaRepositorio.deleteById(id);
 			return ResponseEntity.status(HttpStatus.OK).body("Mercadoria excluído com sucesso");

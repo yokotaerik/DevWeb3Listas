@@ -69,8 +69,8 @@ public class UsuarioControle {
 		return ResponseEntity.status(HttpStatus.OK).body(usuarioDb);
 	}
 
-	@DeleteMapping("/excluir")
-	public ResponseEntity<?> excluirUsuario(@RequestBody Long id) {
+	@DeleteMapping("/excluir/{id}")
+	public ResponseEntity<?> excluirUsuario(@PathVariable Long id) {
 		try {
 			usuarioRepositorio.deleteById(id);
 			return ResponseEntity.status(HttpStatus.OK).body("Usuario excluído com sucesso");

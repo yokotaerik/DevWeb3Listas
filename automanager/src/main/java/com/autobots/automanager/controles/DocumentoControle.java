@@ -79,8 +79,8 @@ public class DocumentoControle {
 		return ResponseEntity.status(HttpStatus.OK).body(documentoDb);
 	}
 
-	@DeleteMapping("/excluir")
-	public ResponseEntity<?> excluirDocumento(@RequestBody Long id) {
+	@DeleteMapping("/excluir/{id}")
+	public ResponseEntity<?> excluirDocumento(@PathVariable Long id) {
 		try {
 			documentoRepositorio.deleteById(id);
 			return ResponseEntity.status(HttpStatus.OK).body("Documento excluído com sucesso");

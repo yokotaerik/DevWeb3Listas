@@ -58,4 +58,6 @@ public class Empresa extends RepresentationModel<Empresa> {
 		this.razaoSocial = razaoSocial;
 		this.cadastro = new Date();
 	}
+
+	public Empresa() {}
 }

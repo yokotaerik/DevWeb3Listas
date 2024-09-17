@@ -4,11 +4,13 @@ import com.autobots.automanager.entidades.Empresa;
 import com.autobots.automanager.modelos.adicionadorLinks.AdicionadorLinkEmpresa;
 import com.autobots.automanager.modelos.atualizador.EmpresaAtualizador;
 import com.autobots.automanager.repositorios.EmpresaRepositorio;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -38,6 +40,7 @@ public class EmpresaControle {
 
 	@GetMapping("get/all")
 	public ResponseEntity<List<Empresa>> obterEmpresas() {
+
 		List<Empresa> empresas = empresaRepositorio.findAll();
 		if(empresas.isEmpty()){
 			return ResponseEntity.notFound().build();
@@ -49,8 +52,8 @@ public class EmpresaControle {
 
 	@PostMapping("/cadastro")
 	public ResponseEntity<?> cadastrarEmpresa(@RequestBody Empresa empresa) {
+		empresa.setCadastro(new Date());
 		empresaRepositorio.save(empresa);
-
 		adicionadorLinkEmpresa.adicionarLink(empresa);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(empresa);
@@ -68,8 +71,8 @@ public class EmpresaControle {
 		return ResponseEntity.status(HttpStatus.OK).body(empresaDb);
 	}
 
-	@DeleteMapping("/excluir")
-	public ResponseEntity<?> excluirEmpresa(@RequestBody Long id) {
+	@DeleteMapping("/excluir/{id}")
+	public ResponseEntity<?> excluirEmpresa(@PathVariable Long id) {
 		try {
 			empresaRepositorio.deleteById(id);
 			return ResponseEntity.status(HttpStatus.OK).body("Empresa excluído com sucesso");

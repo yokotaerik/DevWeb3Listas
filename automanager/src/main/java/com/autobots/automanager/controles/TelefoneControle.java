@@ -112,8 +112,8 @@ public class TelefoneControle {
 		return ResponseEntity.status(HttpStatus.OK).body(telefoneDb);
 	}
 
-	@DeleteMapping("/excluir")
-	public ResponseEntity<?> excluirTelefone(@RequestBody Long id) {
+	@DeleteMapping("/excluir/{id}")
+	public ResponseEntity<?> excluirTelefone(@PathVariable Long id) {
 		try{
 			telefoneRepositorio.deleteById(id);
 			return ResponseEntity.status(HttpStatus.OK).body("Endereço excluído com sucesso");

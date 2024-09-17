@@ -72,8 +72,8 @@ public class EmailControle {
 		return ResponseEntity.status(HttpStatus.OK).body(emailDb);
 	}
 
-	@DeleteMapping("/excluir")
-	public ResponseEntity<?> excluirEmail(@RequestBody Long id) {
+	@DeleteMapping("/excluir/{id}")
+	public ResponseEntity<?> excluirEmail(@PathVariable Long id) {
 		try {
 			emailRepositorio.deleteById(id);
 			return ResponseEntity.status(HttpStatus.OK).body("Email excluído com sucesso");

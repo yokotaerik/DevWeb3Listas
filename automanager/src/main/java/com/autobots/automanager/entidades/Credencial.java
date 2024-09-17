@@ -32,6 +32,6 @@ public abstract class Credencial {
 	private TipoCredencial tipo;
 
 	public Credencial() {
-
 	}
+
 }

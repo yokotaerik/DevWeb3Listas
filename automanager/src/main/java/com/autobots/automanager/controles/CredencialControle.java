@@ -23,93 +23,88 @@ public class CredencialControle {
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
     @Autowired
-    private CredencialRepositorio credencialRepositorio;
+    private CredencialCodigoBarrasRepositorio credencialBarrasRepositorio;
+    @Autowired
+    private CredencialUsuarioSenhaRepositorio credencialUsuarioSenhaRepositorio;
     @Autowired
     private CredencialCodigoBarraAtualizador atualizadorCodigo;
     @Autowired
     private CredencialUsuarioSenhaAtualizador atualizadorNomeUsuario;
 
-//
-//    @GetMapping("get/unique/{id}")
-//    public ResponseEntity<?> obterCredencial(@PathVariable long id)
-//    {
-//        var credencial = credencialRepositorio.getById(id);
-//        if(credencial == null){
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Credencial não encontrado");
-//        } else {
-//            adicionadorLinkCredencial.adicionarLink(credencial);
-//            return ResponseEntity.status(HttpStatus.OK).body(credencial);
-//        }
-//    }
-//
-//    @GetMapping("get/all")
-//    public ResponseEntity<List<Credencial>> obterCredencials() {
-//        List<Credencial> credencials = credencialRepositorio.findAll();
-//        if(credencials.isEmpty()){
-//            return ResponseEntity.notFound().build();
-//        } else {
-//            adicionadorLinkCredencial.adicionarLink(credencials);
-//            return ResponseEntity.ok(credencials);
-//        }
-//    }
-
     @PostMapping("/cadastro/usuario_senha")
     public ResponseEntity<?> cadastrarCredencial(@RequestBody CadastroCredencialUsarioSenhaDTO data) {
-        var cliente = usuarioRepositorio.findById(data.getUsuarioId())
+        var usuarioDb = usuarioRepositorio.findById(data.getUsuarioId())
                 .orElseThrow(() -> new RuntimeException("Usuario nao encontrado"));
 
+        usuarioDb.getCredenciais().removeIf(credencial -> credencial.getTipo() == TipoCredencial.USUARIO_SENHA);
+
         var credencial = new CredencialUsuarioSenha(data.getUsuario(), data.getSenha());
+        credencial.setCriacao(new Date());
 
+        usuarioDb.getCredenciais().add(credencial);
+        this.credencialUsuarioSenhaRepositorio.save(credencial);
+        this.usuarioRepositorio.save(usuarioDb);
 
-        if(cliente.getCredenciais().stream().anyMatch(c -> c.getTipo().equals(TipoCredencial.USUARIO_SENHA))){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cliente já possui uma credencial usuário e senha");
-        }
-        cliente.getCredenciais().add(credencial);
-
-        return ResponseEntity.ok("Credencial cadastrada com sucesso");
+        return ResponseEntity.ok(credencial);
     }
 
     @PostMapping("/cadastro/codigo_barras")
     public ResponseEntity<?> cadastrarCredencialCodigoBarras(@RequestBody CadastroCredencialCodigoBarrasDTO data) {
-        var cliente = usuarioRepositorio.findById(data.getUsuarioId())
+        var usuarioDb = usuarioRepositorio.findById(data.getUsuarioId())
                 .orElseThrow(() -> new RuntimeException("Usuario nao encontrado"));
+
+        usuarioDb.getCredenciais().removeIf(credencial -> credencial.getTipo() == TipoCredencial.CODIGO_BARRAS);
 
         var credencial = new CredencialCodigoBarra(data.getCodigo());
 
-        if(cliente.getCredenciais().stream().anyMatch(c -> c.getTipo().equals(TipoCredencial.CODIGO_BARRAS))){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cliente já possui uma credencial código de barras");
-        }
-        cliente.getCredenciais().add(credencial);
+        credencial.setCriacao(new Date());
 
-        return ResponseEntity.ok("Credencial cadastrada com sucesso");
+        usuarioDb.getCredenciais().add(credencial);
+        this.credencialBarrasRepositorio.save(credencial);
+        this.usuarioRepositorio.save(usuarioDb);
+
+        return ResponseEntity.ok(credencial);
     }
 
-	@PutMapping("/atualizar/usuario_senha")
-	public ResponseEntity<?> atualizarCredencial(@RequestBody CredencialUsuarioSenha credencial) {
-		Credencial credencialDb = credencialRepositorio.getById(credencial.getId());
-		if(credencial == null){
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Credencial não encontrado");
-		}
-        atualizadorNomeUsuario.atualizar((CredencialUsuarioSenha) credencialDb,credencial);
-
-		return ResponseEntity.status(HttpStatus.OK).body(credencialDb);
-	}
-
-    @PutMapping("/atualizar/codigo_barras")
-    public ResponseEntity<?> atualizarCredencialCodigo(@RequestBody CredencialCodigoBarra credencial) {
-        Credencial credencialDb = credencialRepositorio.getById(credencial.getId());
-        if(credencial == null){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Credencial não encontrado");
-        }
-        atualizadorCodigo.atualizar((CredencialCodigoBarra) credencialDb,credencial);
-
-        return ResponseEntity.status(HttpStatus.OK).body(credencialDb);
-    }
+//	@PutMapping("/atualizar/usuario_senha")
+//	public ResponseEntity<?> atualizarCredencial(@RequestBody CredencialUsuarioSenha credencial) {
+//		var credencialDb = credencialUsuarioSenhaRepositorio.getById(credencial.getId());
+//		if(credencial == null){
+//			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Credencial não encontrado");
+//		}
+//        atualizadorNomeUsuario.atualizar( credencialDb,credencial);
+//
+//		return ResponseEntity.status(HttpStatus.OK).body(credencialDb);
+//	}
+//
+//    @PutMapping("/atualizar/codigo_barras")
+//    public ResponseEntity<?> atualizarCredencialCodigo(@RequestBody CadastroCredencialCodigoBarrasDTO data) {
+//        var usuarioDb = usuarioRepositorio.getById(data.getUsuarioId());
+//
+//        if(usuarioDb.getCredenciais().forEach(credencial ->
+//        {
+//            if(credencial.getTipo() == TipoCredencial.CODIGO_BARRAS){
+//                usuarioDb.getCredenciais().remove(credencial);
+//            }
+//        }
+//        ))
+//
+//        if(credencial == null){
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Credencial não encontrado");
+//        }
+//        atualizadorCodigo.atualizar(credencialDb,credencial);
+//
+//        return ResponseEntity.status(HttpStatus.OK).body(credencialDb);
+//    }
 
     @DeleteMapping("/excluir")
-    public ResponseEntity<?> excluirCredencial(@RequestBody Long id) {
+    public ResponseEntity<?> excluirCredencial(@RequestBody Credencial credencial) {
         try {
-            credencialRepositorio.deleteById(id);
+            if(credencial.getTipo() == TipoCredencial.CODIGO_BARRAS) {
+                credencialBarrasRepositorio.deleteById(credencial.getId());
+            } else {
+                credencialUsuarioSenhaRepositorio.deleteById(credencial.getId());
+            }
             return ResponseEntity.status(HttpStatus.OK).body("Credencial excluído com sucesso");
         } catch(Exception ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao excluir credencial");

@@ -81,8 +81,8 @@ public class ServicoControle {
 		return ResponseEntity.status(HttpStatus.OK).body(servicoDb);
 	}
 
-	@DeleteMapping("/excluir")
-	public ResponseEntity<?> excluirServico(@RequestBody Long id) {
+	@DeleteMapping("/excluir/{id}")
+	public ResponseEntity<?> excluirServico(@PathVariable Long id) {
 		try {
 			servicoRepositorio.deleteById(id);
 			return ResponseEntity.status(HttpStatus.OK).body("Servico excluído com sucesso");

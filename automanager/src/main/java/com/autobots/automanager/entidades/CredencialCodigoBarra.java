@@ -28,4 +28,8 @@ public class CredencialCodigoBarra extends Credencial {
 	public CredencialCodigoBarra() {
 		super();
 	}
+
+	public boolean getInativo() {
+		return this.isInativo();
+	}
 }

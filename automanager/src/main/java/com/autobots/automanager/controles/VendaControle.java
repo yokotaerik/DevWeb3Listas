@@ -41,10 +41,10 @@ public class VendaControle {
 	}
 
 	@GetMapping("get/all")
-	public ResponseEntity<List<Venda>> obterVendas() {
+	public ResponseEntity<?> obterVendas() {
 		List<Venda> vendas = vendaRepositorio.findAll();
 		if(vendas.isEmpty()){
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nenhuma venda encontrada");
 		} else {
 			adicionadorLinkVenda.adicionarLink(vendas);
 			return ResponseEntity.ok(vendas);
@@ -72,6 +72,11 @@ public class VendaControle {
 		for (Long id : data.getMercadoriasId()) {
 			var mercadoria = mercadoriaRepositorio.findById(id)
 					.orElseThrow(() -> new RuntimeException("Mercadoria não encontrada"));
+			mercadoria.setQuantidade(mercadoria.getQuantidade() - 1);
+			if(mercadoria.getQuantidade() < 0){
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Quantidade de mercadoria insuficiente");
+			}
+			mercadoriaRepositorio.save(mercadoria);
 			venda.getMercadorias().add(mercadoria);
 		}
 
@@ -100,8 +105,8 @@ public class VendaControle {
 //		return ResponseEntity.status(HttpStatus.OK).body(vendaDb);
 //	}
 
-	@DeleteMapping("/excluir")
-	public ResponseEntity<?> excluirVenda(@RequestBody Long id) {
+	@DeleteMapping("/excluir/{id}")
+	public ResponseEntity<?> excluirVenda(@PathVariable Long id) {
 		try {
 			vendaRepositorio.deleteById(id);
 			return ResponseEntity.status(HttpStatus.OK).body("Venda excluído com sucesso");
