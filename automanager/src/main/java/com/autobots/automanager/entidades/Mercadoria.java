@@ -1,9 +1,11 @@
 package com.autobots.automanager.entidades;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.hateoas.RepresentationModel;
 
@@ -34,4 +36,9 @@ public class Mercadoria extends RepresentationModel<Mercadoria> {
 
 	@Column
 	private String descricao;
+
+
+	@JsonIgnore
+	@ManyToMany(mappedBy = "mercadorias")
+	private List<Venda> vendas = new ArrayList<Venda>();
 }

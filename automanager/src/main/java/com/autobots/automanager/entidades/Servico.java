@@ -2,12 +2,15 @@ package com.autobots.automanager.entidades;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.hateoas.RepresentationModel;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @EqualsAndHashCode
@@ -24,4 +27,8 @@ public class Servico extends RepresentationModel<Servico> {
 	private double valor;
 	@Column
 	private String descricao;
+
+	@JsonIgnore
+	@ManyToMany(mappedBy = "servicos")
+	private List<Venda> vendas = new ArrayList<Venda>();
 }
