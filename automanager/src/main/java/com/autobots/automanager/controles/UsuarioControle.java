@@ -1,5 +1,6 @@
 package com.autobots.automanager.controles;
 
+import com.autobots.automanager.dtos.usuario.UsuarioDTO;
 import com.autobots.automanager.entidades.Usuario;
 import com.autobots.automanager.modelos.adicionadorLinks.AdicionadorLinkUsuario;
 import com.autobots.automanager.modelos.atualizador.UsuarioAtualizador;
@@ -31,9 +32,9 @@ public class UsuarioControle {
 		if(usuario == null){
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado");
 		} else {
-			adicionadorLinkUsuario.adicionarLink(usuario);
-
-            return ResponseEntity.status(HttpStatus.OK).body(usuario);
+			var dto = UsuarioDTO.from(usuario);
+			adicionadorLinkUsuario.adicionarLink(dto);
+            return ResponseEntity.status(HttpStatus.OK).body(dto);
 		}
 	}
 
@@ -43,8 +44,9 @@ public class UsuarioControle {
 		if(usuarios.isEmpty()){
 			return ResponseEntity.notFound().build();
 		} else {
-			adicionadorLinkUsuario.adicionarLink(usuarios);
-			return ResponseEntity.ok(usuarios);
+			var dto = UsuarioDTO.from(usuarios);
+			adicionadorLinkUsuario.adicionarLink(dto);
+			return ResponseEntity.status(HttpStatus.OK).body(dto);
 		}
 	}
 
@@ -52,9 +54,10 @@ public class UsuarioControle {
 	public ResponseEntity<?> cadastrarUsuario(@RequestBody Usuario usuario) {
 		usuarioRepositorio.save(usuario);
 
-		adicionadorLinkUsuario.adicionarLink(usuario);
+		var dto = UsuarioDTO.from(usuario);
+		adicionadorLinkUsuario.adicionarLink(dto);
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
+		return ResponseEntity.status(HttpStatus.CREATED).body(dto);
 	}
 
 	@PutMapping("/atualizar")
@@ -65,8 +68,9 @@ public class UsuarioControle {
 		}
 		atualizador.atualizar(usuarioDb, usuario);
 		usuarioRepositorio.save(usuarioDb);
-		adicionadorLinkUsuario.adicionarLink(usuarioDb);
-		return ResponseEntity.status(HttpStatus.OK).body(usuarioDb);
+		var dto = UsuarioDTO.from(usuario);
+		adicionadorLinkUsuario.adicionarLink(dto);
+		return ResponseEntity.status(HttpStatus.OK).body(dto);
 	}
 
 	@DeleteMapping("/excluir/{id}")

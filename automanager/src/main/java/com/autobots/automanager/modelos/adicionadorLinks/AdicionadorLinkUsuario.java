@@ -1,6 +1,7 @@
 package com.autobots.automanager.modelos.adicionadorLinks;
 
 import com.autobots.automanager.controles.UsuarioControle;
+import com.autobots.automanager.dtos.usuario.UsuarioDTO;
 import com.autobots.automanager.entidades.Usuario;
 import com.autobots.automanager.entidades.Usuario;
 import org.springframework.hateoas.Link;
@@ -10,11 +11,11 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class AdicionadorLinkUsuario implements AdicionadorLink<Usuario> {
+public class AdicionadorLinkUsuario implements AdicionadorLink<UsuarioDTO> {
 
     @Override
-    public void adicionarLink(List<Usuario> lista) {
-        for (Usuario usuario : lista) {
+    public void adicionarLink(List<UsuarioDTO> lista) {
+        for (UsuarioDTO usuario : lista) {
             long id = usuario.getId();
             Link linkProprio = WebMvcLinkBuilder
                     .linkTo(WebMvcLinkBuilder
@@ -26,7 +27,7 @@ public class AdicionadorLinkUsuario implements AdicionadorLink<Usuario> {
     }
 
     @Override
-    public void adicionarLink(Usuario objeto) {
+    public void adicionarLink(UsuarioDTO objeto) {
         Link linkProprio = WebMvcLinkBuilder
                 .linkTo(WebMvcLinkBuilder
                         .methodOn(UsuarioControle.class)
