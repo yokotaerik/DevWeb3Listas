@@ -1,7 +1,7 @@
 package com.autobots.automanager.modelos.adicionadorLinks;
 
 import com.autobots.automanager.controles.VeiculoControle;
-import com.autobots.automanager.entidades.Veiculo;
+import com.autobots.automanager.dtos.veiculo.VeiculoComDonoDTO;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class AdicionadorLinkVeiculo implements AdicionadorLink<Veiculo> {
+public class AdicionadorLinkVeiculo implements AdicionadorLink<VeiculoComDonoDTO> {
 
 	@Override
-	public void adicionarLink(List<Veiculo> lista) {
-		for (Veiculo veiculo : lista) {
+	public void adicionarLink(List<VeiculoComDonoDTO> lista) {
+		for (VeiculoComDonoDTO veiculo : lista) {
 			long id = veiculo.getId();
 			Link linkProprio = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
@@ -25,7 +25,7 @@ public class AdicionadorLinkVeiculo implements AdicionadorLink<Veiculo> {
 	}
 
 	@Override
-	public void adicionarLink(Veiculo objeto) {
+	public void adicionarLink(VeiculoComDonoDTO objeto) {
 		Link linkProprio = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
 						.methodOn(VeiculoControle.class)

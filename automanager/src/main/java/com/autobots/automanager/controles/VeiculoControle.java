@@ -1,6 +1,7 @@
 package com.autobots.automanager.controles;
 
 import com.autobots.automanager.dtos.veiculo.CadastroVeiculoDTO;
+import com.autobots.automanager.dtos.veiculo.VeiculoComDonoDTO;
 import com.autobots.automanager.entidades.Veiculo;
 import com.autobots.automanager.modelos.adicionadorLinks.AdicionadorLinkVeiculo;
 import com.autobots.automanager.modelos.atualizador.VeiculoAtualizador;
@@ -36,20 +37,19 @@ public class VeiculoControle {
 		if(veiculo == null){
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Veiculo não encontrado");
 		} else {
-			adicionadorLinkVeiculo.adicionarLink(veiculo);
-			return ResponseEntity.status(HttpStatus.OK).body(veiculo);
+			var dto = VeiculoComDonoDTO.from(veiculo);
+			adicionadorLinkVeiculo.adicionarLink(dto);
+			return ResponseEntity.status(HttpStatus.OK).body(dto);
 		}
 	}
 
 	@GetMapping("get/all")
-	public ResponseEntity<List<Veiculo>> obterVeiculos() {
+	public ResponseEntity<?> obterVeiculos() {
 		List<Veiculo> veiculos = veiculoRepositorio.findAll();
-		if(veiculos.isEmpty()){
-			return ResponseEntity.notFound().build();
-		} else {
-			adicionadorLinkVeiculo.adicionarLink(veiculos);
-			return ResponseEntity.ok(veiculos);
-		}
+
+		var dtos = VeiculoComDonoDTO.from(veiculos);
+		adicionadorLinkVeiculo.adicionarLink(dtos);
+		return ResponseEntity.ok(dtos);
 	}
 
 	@PostMapping("/cadastro")
@@ -67,7 +67,9 @@ public class VeiculoControle {
 			veiculoRepositorio.save(veiculo);
 			usuarioRepositorio.save(usuarioDb);
 
-			return ResponseEntity.status(HttpStatus.CREATED).body(veiculo);
+			var dto = VeiculoComDonoDTO.from(veiculo);
+			adicionadorLinkVeiculo.adicionarLink(dto);
+			return ResponseEntity.status(HttpStatus.CREATED).body(dto);
 		} else {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrada");
 		}
@@ -81,8 +83,9 @@ public class VeiculoControle {
 		}
 		atualizador.atualizar(veiculoDb, veiculo);
 		veiculoRepositorio.save(veiculoDb);
-		adicionadorLinkVeiculo.adicionarLink(veiculoDb);
-		return ResponseEntity.status(HttpStatus.OK).body(veiculoDb);
+		var dto = VeiculoComDonoDTO.from(veiculoDb);
+		adicionadorLinkVeiculo.adicionarLink(dto);
+		return ResponseEntity.status(HttpStatus.OK).body(dto);
 	}
 
 	@DeleteMapping("/excluir/{id}")

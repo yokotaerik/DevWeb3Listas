@@ -1,6 +1,7 @@
 package com.autobots.automanager.controles;
 
 import com.autobots.automanager.dtos.venda.CadastroVendaDTO;
+import com.autobots.automanager.dtos.venda.VendaCompletaDTO;
 import com.autobots.automanager.entidades.Venda;
 import com.autobots.automanager.modelos.adicionadorLinks.AdicionadorLinkVenda;
 import com.autobots.automanager.repositorios.*;
@@ -35,8 +36,9 @@ public class VendaControle {
 		if(venda == null){
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Venda não encontrado");
 		} else {
-			adicionadorLinkVenda.adicionarLink(venda);
-			return ResponseEntity.status(HttpStatus.OK).body(venda);
+			var vendaDTO = VendaCompletaDTO.fromEntity(venda);
+			adicionadorLinkVenda.adicionarLink(vendaDTO);
+			return ResponseEntity.status(HttpStatus.OK).body(vendaDTO);
 		}
 	}
 
@@ -46,8 +48,9 @@ public class VendaControle {
 		if(vendas.isEmpty()){
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nenhuma venda encontrada");
 		} else {
-			adicionadorLinkVenda.adicionarLink(vendas);
-			return ResponseEntity.ok(vendas);
+			var vendasDTOs = VendaCompletaDTO.from(vendas);
+			adicionadorLinkVenda.adicionarLink(vendasDTOs);
+			return ResponseEntity.ok(vendasDTOs);
 		}
 	}
 
@@ -89,8 +92,9 @@ public class VendaControle {
 		venda.setCliente(cliente);
 		venda.setFuncionario(funcionario);
 		vendaRepositorio.save(venda);
-		adicionadorLinkVenda.adicionarLink(venda);
-		return ResponseEntity.status(HttpStatus.CREATED).body(venda);
+		var vendaDTO = VendaCompletaDTO.fromEntity(venda);
+		adicionadorLinkVenda.adicionarLink(vendaDTO);
+		return ResponseEntity.status(HttpStatus.CREATED).body(vendaDTO);
 	}
 
 //	@PutMapping("/atualizar")

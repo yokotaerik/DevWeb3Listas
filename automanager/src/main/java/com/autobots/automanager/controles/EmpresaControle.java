@@ -1,5 +1,6 @@
 package com.autobots.automanager.controles;
 
+import com.autobots.automanager.dtos.empresa.EmpresaCompletaDTO;
 import com.autobots.automanager.entidades.Empresa;
 import com.autobots.automanager.modelos.adicionadorLinks.AdicionadorLinkEmpresa;
 import com.autobots.automanager.modelos.atualizador.EmpresaAtualizador;
@@ -33,20 +34,22 @@ public class EmpresaControle {
 		if(empresa == null){
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Empresa não encontrado");
 		} else {
-			adicionadorLinkEmpresa.adicionarLink(empresa);
-			return ResponseEntity.status(HttpStatus.OK).body(empresa);
+			var dto = EmpresaCompletaDTO.from(empresa);
+			adicionadorLinkEmpresa.adicionarLink(dto);
+			return ResponseEntity.status(HttpStatus.OK).body(dto);
 		}
 	}
 
 	@GetMapping("get/all")
-	public ResponseEntity<List<Empresa>> obterEmpresas() {
+	public ResponseEntity<?> obterEmpresas() {
 
 		List<Empresa> empresas = empresaRepositorio.findAll();
 		if(empresas.isEmpty()){
 			return ResponseEntity.notFound().build();
 		} else {
-			adicionadorLinkEmpresa.adicionarLink(empresas);
-			return ResponseEntity.ok(empresas);
+			var dtos = EmpresaCompletaDTO.from(empresas);
+			adicionadorLinkEmpresa.adicionarLink(dtos);
+			return ResponseEntity.ok(dtos);
 		}
 	}
 
@@ -54,9 +57,10 @@ public class EmpresaControle {
 	public ResponseEntity<?> cadastrarEmpresa(@RequestBody Empresa empresa) {
 		empresa.setCadastro(new Date());
 		empresaRepositorio.save(empresa);
-		adicionadorLinkEmpresa.adicionarLink(empresa);
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(empresa);
+		var dto = EmpresaCompletaDTO.from(empresa);
+		adicionadorLinkEmpresa.adicionarLink(dto);
+		return ResponseEntity.status(HttpStatus.CREATED).body(dto);
 	}
 
 	@PutMapping("/atualizar")
@@ -67,8 +71,9 @@ public class EmpresaControle {
 		}
 		atualizador.atualizar(empresaDb, empresa);
 		empresaRepositorio.save(empresaDb);
-		adicionadorLinkEmpresa.adicionarLink(empresaDb);
-		return ResponseEntity.status(HttpStatus.OK).body(empresaDb);
+		var dto = EmpresaCompletaDTO.from(empresaDb);
+		adicionadorLinkEmpresa.adicionarLink(dto);
+		return ResponseEntity.status(HttpStatus.OK).body(dto);
 	}
 
 	@DeleteMapping("/excluir/{id}")
