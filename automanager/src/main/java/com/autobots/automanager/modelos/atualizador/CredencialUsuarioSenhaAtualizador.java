@@ -17,9 +17,6 @@ public class CredencialUsuarioSenhaAtualizador {
             if (!verificador.verificar(String.valueOf(atualizacao.getSenha()))) {
                 credencial.setSenha(atualizacao.getSenha());
             }
-            if (atualizacao.isInativo()){
-                credencial.setInativo(atualizacao.isInativo());
-            }
         }
     }
 

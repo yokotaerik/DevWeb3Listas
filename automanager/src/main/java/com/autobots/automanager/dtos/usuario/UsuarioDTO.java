@@ -4,7 +4,7 @@ import com.autobots.automanager.dtos.mercadoria.MercadoriaSimplesDTO;
 import com.autobots.automanager.dtos.veiculo.VeiculoDTO;
 import com.autobots.automanager.dtos.venda.VendaCompletaDTO;
 import com.autobots.automanager.entidades.*;
-import com.autobots.automanager.enumeracoes.PerfilUsuario;
+import com.autobots.automanager.modelos.Perfil;
 import lombok.Data;
 import org.springframework.hateoas.RepresentationModel;
 
@@ -16,12 +16,12 @@ public class UsuarioDTO extends RepresentationModel<UsuarioDTO> {
     private Long id;
     private String nome;
     private String nomeSocial;
-    private Set<PerfilUsuario> perfis;
+    private Set<Perfil> perfis;
     private Set<Telefone> telefones;
     private Endereco endereco;
     private Set<Documento> documentos;
     private Set<Email> emails;
-    private Set<Credencial> credenciais;
+    private Credencial credencial;
     private List<MercadoriaSimplesDTO> mercadorias;
     private List<VendaCompletaDTO> vendas;
     private List<VeiculoDTO> veiculos;
@@ -36,7 +36,7 @@ public class UsuarioDTO extends RepresentationModel<UsuarioDTO> {
         dto.setEndereco(usuario.getEndereco());
         dto.setDocumentos(usuario.getDocumentos());
         dto.setEmails(usuario.getEmails());
-        dto.setCredenciais(usuario.getCredenciais());
+        dto.setCredencial(usuario.getCredencial());
         dto.setMercadorias(MercadoriaSimplesDTO.from(usuario.getMercadorias().stream().toList()));
         dto.setVendas(VendaCompletaDTO.from(usuario.getVendas().stream().toList()));
         dto.setVeiculos(VeiculoDTO.from(usuario.getVeiculos().stream().toList()));

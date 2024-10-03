@@ -21,11 +21,8 @@ public class CredencialUsuarioSenha extends Credencial {
 	private String senha;
 
 	public CredencialUsuarioSenha(String nomeUsuario, String senha) {
-		this.setCriacao(new Date());
-		this.setInativo(false);
 		this.setNomeUsuario(nomeUsuario);
 		this.setSenha(senha);
-		this.setTipo(TipoCredencial.USUARIO_SENHA);
 	}
 
 

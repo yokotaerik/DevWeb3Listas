@@ -5,7 +5,6 @@ import com.autobots.automanager.entidades.Empresa;
 import com.autobots.automanager.modelos.adicionadorLinks.AdicionadorLinkEmpresa;
 import com.autobots.automanager.modelos.atualizador.EmpresaAtualizador;
 import com.autobots.automanager.repositorios.EmpresaRepositorio;
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -14,8 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import com.autobots.automanager.enumeracoes.PerfilUsuario;
-
+import com.autobots.automanager.modelos.Perfil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
@@ -37,7 +36,7 @@ public class Usuario extends RepresentationModel<Usuario> {
 	private String nomeSocial;
 
 	@ElementCollection(fetch = FetchType.EAGER)
-	private Set<PerfilUsuario> perfis = new HashSet<>();
+	private Set<Perfil> perfis = new HashSet<>();
 
 	@OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Telefone> telefones = new HashSet<>();
@@ -51,9 +50,9 @@ public class Usuario extends RepresentationModel<Usuario> {
 	@OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Email> emails = new HashSet<>();
 
-	@OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnore
-	private Set<Credencial> credenciais = new HashSet<>();
+	private Credencial credencial;
 
 	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
 	private Set<Mercadoria> mercadorias = new HashSet<>();

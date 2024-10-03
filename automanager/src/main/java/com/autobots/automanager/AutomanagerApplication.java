@@ -21,10 +21,9 @@ import com.autobots.automanager.entidades.Servico;
 import com.autobots.automanager.entidades.Telefone;
 import com.autobots.automanager.entidades.Usuario;
 import com.autobots.automanager.modelos.Perfil;
-import com.autobots.automanager.repositorios.RepositorioUsuario;
+import com.autobots.automanager.repositorios.UsuarioRepositorio;
 import com.autobots.automanager.entidades.Veiculo;
 import com.autobots.automanager.entidades.Venda;
-import com.autobots.automanager.enumeracoes.PerfilUsuario;
 import com.autobots.automanager.enumeracoes.TipoDocumento;
 import com.autobots.automanager.enumeracoes.TipoVeiculo;
 import com.autobots.automanager.repositorios.RepositorioEmpresa;
@@ -35,7 +34,9 @@ public class AutomanagerApplication implements CommandLineRunner {
 
 	@Autowired
 	private RepositorioEmpresa repositorioEmpresa;
-	private RepositorioUsuario repositorio;
+
+	@Autowired
+	private UsuarioRepositorio repositorio;
 
 	public static void main(String[] args) {
 		SpringApplication.run(AutomanagerApplication.class, args);
@@ -68,7 +69,7 @@ public class AutomanagerApplication implements CommandLineRunner {
 		Usuario funcionario = new Usuario();
 		funcionario.setNome("Pedro Alcântara de Bragança e Bourbon");
 		funcionario.setNomeSocial("Dom Pedro");
-		funcionario.getPerfis().add(PerfilUsuario.FUNCIONARIO);
+		funcionario.getPerfis().add(Perfil.ROLE_VENDEDOR);
 
 		Email emailFuncionario = new Email();
 		emailFuncionario.setEndereco("a@a.com");
@@ -101,18 +102,15 @@ public class AutomanagerApplication implements CommandLineRunner {
 		funcionario.getDocumentos().add(cpf);
 
 		CredencialUsuarioSenha credencialFuncionario = new CredencialUsuarioSenha();
-		credencialFuncionario.setInativo(false);
 		credencialFuncionario.setNomeUsuario("dompedrofuncionario");
 		credencialFuncionario.setSenha("123456");
-		credencialFuncionario.setCriacao(new Date());
-		credencialFuncionario.setUltimoAcesso(new Date());
 
-		funcionario.getCredenciais().add(credencialFuncionario);
+		funcionario.setCredencial(credencialFuncionario);
 
 		Usuario fornecedor = new Usuario();
 		fornecedor.setNome("Componentes varejo de partes automotivas ltda");
 		fornecedor.setNomeSocial("Loja do carro, vendas de componentes automotivos");
-		fornecedor.getPerfis().add(PerfilUsuario.FORNECEDOR);
+		fornecedor.getPerfis().add(Perfil.ROLE_VENDEDOR);
 
 		Email emailFornecedor = new Email();
 		emailFornecedor.setEndereco("f@f.com");
@@ -120,13 +118,10 @@ public class AutomanagerApplication implements CommandLineRunner {
 		fornecedor.getEmails().add(emailFornecedor);
 
 		CredencialUsuarioSenha credencialFornecedor = new CredencialUsuarioSenha();
-		credencialFornecedor.setInativo(false);
 		credencialFornecedor.setNomeUsuario("dompedrofornecedor");
 		credencialFornecedor.setSenha("123456");
-		credencialFornecedor.setCriacao(new Date());
-		credencialFornecedor.setUltimoAcesso(new Date());
 
-		fornecedor.getCredenciais().add(credencialFornecedor);
+		fornecedor.setCredencial(credencialFornecedor);
 
 		Documento cnpj = new Documento();
 		cnpj.setDataEmissao(new Date());
@@ -163,7 +158,7 @@ public class AutomanagerApplication implements CommandLineRunner {
 		Usuario cliente = new Usuario();
 		cliente.setNome("Pedro Alcântara de Bragança e Bourbon");
 		cliente.setNomeSocial("Dom pedro cliente");
-		cliente.getPerfis().add(PerfilUsuario.CLIENTE);
+		cliente.getPerfis().add(Perfil.ROLE_CLIENTE);
 
 		Email emailCliente = new Email();
 		emailCliente.setEndereco("c@c.com");
@@ -178,13 +173,10 @@ public class AutomanagerApplication implements CommandLineRunner {
 		cliente.getDocumentos().add(cpfCliente);
 
 		CredencialUsuarioSenha credencialCliente = new CredencialUsuarioSenha();
-		credencialCliente.setInativo(false);
 		credencialCliente.setNomeUsuario("dompedrocliente");
 		credencialCliente.setSenha("123456");
-		credencialCliente.setCriacao(new Date());
-		credencialCliente.setUltimoAcesso(new Date());
 
-		cliente.getCredenciais().add(credencialCliente);
+		cliente.setCredencial(credencialCliente);
 
 		Endereco enderecoCliente = new Endereco();
 		enderecoCliente.setEstado("São Paulo");
