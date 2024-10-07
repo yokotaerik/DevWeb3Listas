@@ -76,7 +76,7 @@ public class UsuarioControle {
 		if(usuario == null){
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado");
 		} else {
-			var validacao = verificarPermissoes(authService.obterUsuarioLogado(), usuario.getPerfis())
+			var validacao = verificarPermissoes(authService.obterUsuarioLogado(), usuario.getPerfis());
 			if(validacao != null) return validacao;
 
 			var dto = UsuarioDTO.from(usuario);

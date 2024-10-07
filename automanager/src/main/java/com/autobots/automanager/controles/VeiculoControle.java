@@ -10,6 +10,7 @@ import com.autobots.automanager.repositorios.VeiculoRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class VeiculoControle {
 	@Autowired
 	private VeiculoAtualizador atualizador;
 
+	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
 	@GetMapping("get/unique/{id}")
 	public ResponseEntity<?> obterVeiculo(@PathVariable long id)
 	{
@@ -43,6 +45,7 @@ public class VeiculoControle {
 		}
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
 	@GetMapping("get/all")
 	public ResponseEntity<?> obterVeiculos() {
 		List<Veiculo> veiculos = veiculoRepositorio.findAll();
@@ -52,6 +55,7 @@ public class VeiculoControle {
 		return ResponseEntity.ok(dtos);
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
 	@PostMapping("/cadastro")
 	public ResponseEntity<?> cadastrarVeiculo(@RequestBody CadastroVeiculoDTO data) throws Exception {
 		var usuario = usuarioRepositorio.findById(data.getIdProprietario());
@@ -75,6 +79,7 @@ public class VeiculoControle {
 		}
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
 	@PutMapping("/atualizar")
 	public ResponseEntity<?> atualizarVeiculo(@RequestBody Veiculo veiculo) {
 		Veiculo veiculoDb = veiculoRepositorio.getById(veiculo.getId());
@@ -88,6 +93,7 @@ public class VeiculoControle {
 		return ResponseEntity.status(HttpStatus.OK).body(dto);
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
 	@DeleteMapping("/excluir/{id}")
 	public ResponseEntity<?> excluirVeiculo(@PathVariable Long id) {
 		try {

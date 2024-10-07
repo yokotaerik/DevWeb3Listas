@@ -9,6 +9,7 @@ import com.autobots.automanager.repositorios.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class EmailControle {
 	@Autowired
 	private EmailAtualizador atualizarEmail;
 
+	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
 	@GetMapping("get/unique/{id}")
 	public ResponseEntity<?> obterEmail(@PathVariable long id)
 	{
@@ -38,6 +40,7 @@ public class EmailControle {
 		}
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
 	@GetMapping("get/all")
 	public ResponseEntity<List<Email>> obterEmails() {
 		List<Email> emails = emailRepositorio.findAll();
@@ -49,6 +52,7 @@ public class EmailControle {
 		}
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
 	@PostMapping("/cadastro")
 	public ResponseEntity<?> cadastrarEmail(@RequestBody CadastroEmailDTO data) {
 		var cliente = usuarioRepositorio.findById(data.getClienteId()).orElseThrow(
@@ -61,6 +65,7 @@ public class EmailControle {
 			return ResponseEntity.status(HttpStatus.CREATED).body(email);
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
 	@PutMapping("/atualizar")
 	public ResponseEntity<?> atualizarEmail(@RequestBody Email email) {
 		var emailDb = emailRepositorio.findById(email.getId()).orElseThrow(
@@ -72,6 +77,7 @@ public class EmailControle {
 		return ResponseEntity.status(HttpStatus.OK).body(emailDb);
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
 	@DeleteMapping("/excluir/{id}")
 	public ResponseEntity<?> excluirEmail(@PathVariable Long id) {
 		try {

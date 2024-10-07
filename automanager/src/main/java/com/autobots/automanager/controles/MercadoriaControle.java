@@ -56,6 +56,7 @@ public class MercadoriaControle {
 		}
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE')")
 	@PostMapping("/cadastro")
 	public ResponseEntity<?> cadastrarMercadoria(@RequestBody CadastroMercadoriaDTO data) throws Exception {
 		var empresa = empresaRepositorio.findById(data.getEmpresaId());
@@ -81,6 +82,7 @@ public class MercadoriaControle {
 		}
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE')")
 	@PutMapping("/atualizar")
 	public ResponseEntity<?> atualizarMercadoria(@RequestBody Mercadoria mercadoria) {
 		Mercadoria mercadoriaDb = mercadoriaRepositorio.getById(mercadoria.getId());
@@ -93,6 +95,7 @@ public class MercadoriaControle {
 		return ResponseEntity.status(HttpStatus.OK).body(mercadoriaDb);
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE')")
 	@DeleteMapping("/excluir/{id}")
 	public ResponseEntity<?> excluirMercadoria(@PathVariable Long id) {
 		try {
