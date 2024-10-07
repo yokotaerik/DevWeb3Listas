@@ -9,6 +9,7 @@ import com.autobots.automanager.repositorios.MercadoriaRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -30,6 +31,7 @@ public class MercadoriaControle {
 	@Autowired
 	private MercadoriaAtualizador atualizador;
 
+	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
 	@GetMapping("get/unique/{id}")
 	public ResponseEntity<?> obterMercadoria(@PathVariable long id)
 	{
@@ -42,6 +44,7 @@ public class MercadoriaControle {
 		}
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
 	@GetMapping("get/all")
 	public ResponseEntity<List<Mercadoria>> obterMercadorias() {
 		List<Mercadoria> mercadorias = mercadoriaRepositorio.findAll();

@@ -9,6 +9,7 @@ import com.autobots.automanager.repositorios.ServicoRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class ServicoControle {
 	@Autowired
 	private ServicoAtualizador atualizador;
 
+	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
 	@GetMapping("get/unique/{id}")
 	public ResponseEntity<?> obterServico(@PathVariable long id)
 	{
@@ -41,6 +43,7 @@ public class ServicoControle {
 		}
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
 	@GetMapping("get/all")
 	public ResponseEntity<List<Servico>> obterServicos() {
 		List<Servico> servicos = servicoRepositorio.findAll();
@@ -52,6 +55,7 @@ public class ServicoControle {
 		}
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE')")
 	@PostMapping("/cadastro")
 	public ResponseEntity<?> cadastrarServico(@RequestBody CadastroServicoDTO data) throws Exception {
 		var empresa = empresaRepositorio.findById(data.getEmpresaId()).orElseThrow(() -> new Exception("Empresa não encontrada"));
@@ -69,6 +73,7 @@ public class ServicoControle {
 		return ResponseEntity.status(HttpStatus.CREATED).body(servico);
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE')")
 	@PutMapping("/atualizar")
 	public ResponseEntity<?> atualizarServico(@RequestBody Servico servico) {
 		Servico servicoDb = servicoRepositorio.getById(servico.getId());
@@ -81,6 +86,7 @@ public class ServicoControle {
 		return ResponseEntity.status(HttpStatus.OK).body(servicoDb);
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE')")
 	@DeleteMapping("/excluir/{id}")
 	public ResponseEntity<?> excluirServico(@PathVariable Long id) {
 		try {

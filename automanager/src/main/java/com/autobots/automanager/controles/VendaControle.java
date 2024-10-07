@@ -3,14 +3,19 @@ package com.autobots.automanager.controles;
 import com.autobots.automanager.dtos.venda.CadastroVendaDTO;
 import com.autobots.automanager.dtos.venda.VendaCompletaDTO;
 import com.autobots.automanager.entidades.Venda;
+import com.autobots.automanager.modelos.Perfil;
 import com.autobots.automanager.modelos.adicionadorLinks.AdicionadorLinkVenda;
 import com.autobots.automanager.repositorios.*;
+import com.autobots.automanager.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/venda")
@@ -28,7 +33,24 @@ public class VendaControle {
 	private ServicoRepositorio servicoRepositorio;
 	@Autowired
 	private AdicionadorLinkVenda adicionadorLinkVenda;
+	@Autowired
+	private AuthService authService;
 
+	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR', 'CLIENTE')")
+	@GetMapping("get/minhas-vendas")
+	public ResponseEntity<?> obterMinhasVendas() {
+		var usuarioLogado = authService.obterUsuarioLogado();
+
+		var vendas = vendaRepositorio.findAll();
+
+		var vendasUsuario = vendas.stream()
+			.filter(venda -> Objects.equals(venda.getCliente().getId(), usuarioLogado.getId()))
+			.collect(Collectors.toList());
+
+		return ResponseEntity.ok(vendasUsuario);
+	}
+
+	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE')")
 	@GetMapping("get/unique/{id}")
 	public ResponseEntity<?> obterVenda(@PathVariable long id)
 	{
@@ -42,6 +64,7 @@ public class VendaControle {
 		}
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE')")
 	@GetMapping("get/all")
 	public ResponseEntity<?> obterVendas() {
 		List<Venda> vendas = vendaRepositorio.findAll();
@@ -54,6 +77,7 @@ public class VendaControle {
 		}
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
 	@PostMapping("/cadastro")
 	public ResponseEntity<?> cadastrarVenda(@RequestBody CadastroVendaDTO data) {
 		var cliente = usuarioRepositorio.findById(data.getClienteId())
@@ -61,6 +85,13 @@ public class VendaControle {
 		var funcionario = usuarioRepositorio.findById(data.getFuncionarioId())
 				.orElseThrow(() -> new RuntimeException("Funcionário não encontrado"));
 
+		var usuarioLogado = authService.obterUsuarioLogado();
+		if(!usuarioLogado.getPerfis().contains(Perfil.ROLE_GERENTE)
+		|| !usuarioLogado.getPerfis().contains(Perfil.ROLE_ADMIN)){
+			if(!funcionario.getId().equals(usuarioLogado.getId())){
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não autorizado");
+			}
+		}
 
 		var venda = new Venda();
 		venda.setCadastro(data.getCadastro());

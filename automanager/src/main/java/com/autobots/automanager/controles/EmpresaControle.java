@@ -8,6 +8,7 @@ import com.autobots.automanager.repositorios.EmpresaRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -26,6 +27,7 @@ public class EmpresaControle {
 	@Autowired
 	private EmpresaAtualizador atualizador;
 
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@GetMapping("get/unique/{id}")
 	public ResponseEntity<?> obterEmpresa(@PathVariable long id)
 	{
@@ -39,6 +41,7 @@ public class EmpresaControle {
 		}
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@GetMapping("get/all")
 	public ResponseEntity<?> obterEmpresas() {
 
@@ -52,6 +55,7 @@ public class EmpresaControle {
 		}
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PostMapping("/cadastro")
 	public ResponseEntity<?> cadastrarEmpresa(@RequestBody Empresa empresa) {
 		empresa.setCadastro(new Date());
@@ -62,6 +66,7 @@ public class EmpresaControle {
 		return ResponseEntity.status(HttpStatus.CREATED).body(dto);
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PutMapping("/atualizar")
 	public ResponseEntity<?> atualizarEmpresa(@RequestBody Empresa empresa) {
 		Empresa empresaDb = empresaRepositorio.getById(empresa.getId());
@@ -75,6 +80,7 @@ public class EmpresaControle {
 		return ResponseEntity.status(HttpStatus.OK).body(dto);
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@DeleteMapping("/excluir/{id}")
 	public ResponseEntity<?> excluirEmpresa(@PathVariable Long id) {
 		try {

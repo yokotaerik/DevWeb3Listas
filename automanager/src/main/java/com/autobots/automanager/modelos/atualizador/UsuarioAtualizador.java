@@ -1,6 +1,7 @@
 package com.autobots.automanager.modelos.atualizador;
 
 import com.autobots.automanager.entidades.Usuario;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -16,6 +17,11 @@ public class UsuarioAtualizador {
 			}
 			if (!verificador.verificar(atualizacao.getNomeSocial())) {
 				usuario.setNomeSocial(atualizacao.getNomeSocial());
+			}
+			if (!atualizacao.getCredencial().getNomeUsuario().isEmpty() && !atualizacao.getCredencial().getSenha().isEmpty()) {
+				usuario.getCredencial().setNomeUsuario(atualizacao.getCredencial().getNomeUsuario());
+				BCryptPasswordEncoder codificador = new BCryptPasswordEncoder();
+				usuario.getCredencial().setSenha(codificador.encode(atualizacao.getCredencial().getSenha()));
 			}
 			if (!atualizacao.getPerfis().isEmpty()){
 				usuario.getPerfis().clear();

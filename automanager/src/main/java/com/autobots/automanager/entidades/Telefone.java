@@ -1,10 +1,6 @@
 package com.autobots.automanager.entidades;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
@@ -21,4 +17,12 @@ public class Telefone extends RepresentationModel<Telefone> {
 	private String ddd;
 	@Column(nullable = false)
 	private String numero;
+
+	@ManyToOne
+	@JoinColumn(name = "usuario_id")
+	private Usuario usuario;
+
+	@ManyToOne
+	@JoinColumn(name = "empresa_id")
+	private Empresa empresa;
 }

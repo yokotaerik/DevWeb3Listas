@@ -11,7 +11,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.autobots.automanager.entidades.Credencial;
-import com.autobots.automanager.entidades.CredencialUsuarioSenha;
 import com.autobots.automanager.entidades.Documento;
 import com.autobots.automanager.entidades.Email;
 import com.autobots.automanager.entidades.Empresa;
@@ -100,8 +99,7 @@ public class AutomanagerApplication implements CommandLineRunner {
 		cpf.setTipo(TipoDocumento.CPF);
 
 		funcionario.getDocumentos().add(cpf);
-
-		CredencialUsuarioSenha credencialFuncionario = new CredencialUsuarioSenha();
+		Credencial credencialFuncionario = new Credencial();
 		credencialFuncionario.setNomeUsuario("dompedrofuncionario");
 		credencialFuncionario.setSenha("123456");
 
@@ -117,7 +115,7 @@ public class AutomanagerApplication implements CommandLineRunner {
 
 		fornecedor.getEmails().add(emailFornecedor);
 
-		CredencialUsuarioSenha credencialFornecedor = new CredencialUsuarioSenha();
+		Credencial credencialFornecedor = new Credencial();
 		credencialFornecedor.setNomeUsuario("dompedrofornecedor");
 		credencialFornecedor.setSenha("123456");
 
@@ -172,8 +170,9 @@ public class AutomanagerApplication implements CommandLineRunner {
 
 		cliente.getDocumentos().add(cpfCliente);
 
-		CredencialUsuarioSenha credencialCliente = new CredencialUsuarioSenha();
+		Credencial credencialCliente = new Credencial();
 		credencialCliente.setNomeUsuario("dompedrocliente");
+
 		credencialCliente.setSenha("123456");
 
 		cliente.setCredencial(credencialCliente);

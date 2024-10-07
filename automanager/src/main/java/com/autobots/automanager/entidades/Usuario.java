@@ -51,7 +51,6 @@ public class Usuario extends RepresentationModel<Usuario> {
 	private Set<Email> emails = new HashSet<>();
 
 	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonIgnore
 	private Credencial credencial;
 
 	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
