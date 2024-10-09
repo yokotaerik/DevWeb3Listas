@@ -43,6 +43,7 @@ public class AutomanagerApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		BCryptPasswordEncoder codificador = new BCryptPasswordEncoder();
 
 		Empresa empresa = new Empresa();
 		empresa.setRazaoSocial("Car service toyota ltda");
@@ -68,7 +69,6 @@ public class AutomanagerApplication implements CommandLineRunner {
 		Usuario funcionario = new Usuario();
 		funcionario.setNome("Pedro Alcântara de Bragança e Bourbon");
 		funcionario.setNomeSocial("Dom Pedro");
-		funcionario.getPerfis().add(Perfil.ROLE_VENDEDOR);
 
 		Email emailFuncionario = new Email();
 		emailFuncionario.setEndereco("a@a.com");
@@ -102,6 +102,8 @@ public class AutomanagerApplication implements CommandLineRunner {
 		Credencial credencialFuncionario = new Credencial();
 		credencialFuncionario.setNomeUsuario("dompedrofuncionario");
 		credencialFuncionario.setSenha("123456");
+
+		funcionario.getPerfis().add(Perfil.ROLE_GERENTE);
 
 		funcionario.setCredencial(credencialFuncionario);
 
@@ -173,8 +175,7 @@ public class AutomanagerApplication implements CommandLineRunner {
 		Credencial credencialCliente = new Credencial();
 		credencialCliente.setNomeUsuario("dompedrocliente");
 
-		credencialCliente.setSenha("123456");
-
+		credencialCliente.setSenha(codificador.encode("123456"));
 		cliente.setCredencial(credencialCliente);
 
 		Endereco enderecoCliente = new Endereco();
@@ -258,7 +259,6 @@ public class AutomanagerApplication implements CommandLineRunner {
 		empresa.getVendas().add(venda2);
 
 		repositorioEmpresa.save(empresa);
-		BCryptPasswordEncoder codificador = new BCryptPasswordEncoder();
 		Usuario usuario = new Usuario();
 		usuario.setNome("administrador");
 		usuario.getPerfis().add(Perfil.ROLE_ADMIN);

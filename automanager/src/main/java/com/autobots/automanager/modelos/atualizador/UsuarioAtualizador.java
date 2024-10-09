@@ -18,7 +18,7 @@ public class UsuarioAtualizador {
 			if (!verificador.verificar(atualizacao.getNomeSocial())) {
 				usuario.setNomeSocial(atualizacao.getNomeSocial());
 			}
-			if (!atualizacao.getCredencial().getNomeUsuario().isEmpty() && !atualizacao.getCredencial().getSenha().isEmpty()) {
+			if (atualizacao.getCredencial() != null && !atualizacao.getCredencial().getNomeUsuario().isEmpty() && !atualizacao.getCredencial().getSenha().isEmpty()) {
 				usuario.getCredencial().setNomeUsuario(atualizacao.getCredencial().getNomeUsuario());
 				BCryptPasswordEncoder codificador = new BCryptPasswordEncoder();
 				usuario.getCredencial().setSenha(codificador.encode(atualizacao.getCredencial().getSenha()));

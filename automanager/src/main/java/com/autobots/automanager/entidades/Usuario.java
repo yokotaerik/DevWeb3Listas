@@ -63,4 +63,23 @@ public class Usuario extends RepresentationModel<Usuario> {
 	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
 	@JsonIgnore
 	private Set<Veiculo> veiculos = new HashSet<>();
+
+	public Set<Perfil> getPerfis() {
+		if(perfis.contains(Perfil.ROLE_ADMIN)){
+			perfis.add(Perfil.ROLE_CLIENTE);
+			perfis.add(Perfil.ROLE_GERENTE);
+			perfis.add(Perfil.ROLE_VENDEDOR);
+			return perfis;
+		}
+		if(perfis.contains(Perfil.ROLE_GERENTE)){
+			perfis.add(Perfil.ROLE_VENDEDOR);
+			perfis.add(Perfil.ROLE_CLIENTE);
+			return perfis;
+		}
+		if(perfis.contains(Perfil.ROLE_VENDEDOR)){
+			perfis.add(Perfil.ROLE_CLIENTE);
+			return perfis;
+		}
+		return perfis;
+	};
 }

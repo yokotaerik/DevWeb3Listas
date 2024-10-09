@@ -1,10 +1,6 @@
 package com.autobots.automanager.entidades;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
@@ -23,6 +19,10 @@ public class Email extends RepresentationModel<Email> {
 	private Long id;
 	@Column(nullable = false)
 	private String endereco;
+
+	@ManyToOne
+	@JoinColumn(name = "usuario_id")
+	private Usuario usuario;
 
 	public Email(String endereco) {
 		this.endereco = endereco;

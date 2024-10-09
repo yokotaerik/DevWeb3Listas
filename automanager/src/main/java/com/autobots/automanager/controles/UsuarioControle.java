@@ -146,7 +146,8 @@ public class UsuarioControle {
 		var validacao = verificarPermissoes(autor, usuarioDb.getPerfis());
 		if(validacao != null) return validacao;
 
-		if (!usuario.getCredencial().getNomeUsuario().isEmpty()) {
+		if (usuario.getCredencial() != null
+		&& !usuario.getCredencial().getNomeUsuario().isEmpty()) {
 			var nomeUsuarioExiste = usuarioRepositorio.findyByCredencialNomeUsuario(usuario.getCredencial().getNomeUsuario());
 			if(nomeUsuarioExiste.isPresent()) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Credencial já cadastrada");
 		}
