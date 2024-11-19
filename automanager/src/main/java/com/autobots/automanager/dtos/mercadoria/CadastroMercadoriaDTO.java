@@ -14,4 +14,5 @@ public class CadastroMercadoriaDTO {
     private double valor;
     private String descricao;
     private long empresaId;
+    private long fornecedorId;
 }

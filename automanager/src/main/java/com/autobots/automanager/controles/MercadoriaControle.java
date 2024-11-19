@@ -6,6 +6,7 @@ import com.autobots.automanager.modelos.adicionadorLinks.AdicionadorLinkMercador
 import com.autobots.automanager.modelos.atualizador.MercadoriaAtualizador;
 import com.autobots.automanager.repositorios.EmpresaRepositorio;
 import com.autobots.automanager.repositorios.MercadoriaRepositorio;
+import com.autobots.automanager.repositorios.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,9 @@ public class MercadoriaControle {
 
 	@Autowired
 	private EmpresaRepositorio empresaRepositorio;
+
+	@Autowired
+	private UsuarioRepositorio usuarioRepositorio;
 
 	@Autowired
 	private AdicionadorLinkMercadoria adicionadorLinkMercadoria;
@@ -56,6 +60,13 @@ public class MercadoriaControle {
 	@PostMapping("/cadastro")
 	public ResponseEntity<?> cadastrarMercadoria(@RequestBody CadastroMercadoriaDTO data) throws Exception {
 		var empresa = empresaRepositorio.findById(data.getEmpresaId());
+		var fornecedorOp = usuarioRepositorio.findById(data.getFornecedorId());
+
+		if (fornecedorOp.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Fornecedor não encontrado");
+		}
+
+		var fornecedor = fornecedorOp.get();
 
 		if(empresa.isPresent()){
 			var mercadoria = new Mercadoria();
@@ -71,6 +82,9 @@ public class MercadoriaControle {
 			empresaDb.getMercadorias().add(mercadoria);
 			mercadoriaRepositorio.save(mercadoria);
 			empresaRepositorio.save(empresaDb);
+
+			fornecedor.getMercadorias().add(mercadoria);
+			usuarioRepositorio.save(fornecedor);
 
 			return ResponseEntity.status(HttpStatus.CREATED).body(mercadoria);
 		} else {
