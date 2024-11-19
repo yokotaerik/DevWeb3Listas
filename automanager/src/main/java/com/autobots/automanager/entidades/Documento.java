@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 import com.autobots.automanager.enumeracoes.TipoDocumento;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.springframework.hateoas.RepresentationModel;
@@ -24,6 +25,7 @@ public class Documento extends RepresentationModel<Documento> {
 	@Column(unique = true, nullable = false)
 	private String numero;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "usuario_id")
 	private Usuario usuario;

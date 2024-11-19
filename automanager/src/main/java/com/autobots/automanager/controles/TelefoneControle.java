@@ -110,6 +110,7 @@ public class TelefoneControle {
 			var telefone = new Telefone();
 			telefone.setDdd(data.getDdd());
 			telefone.setNumero(data.getNumero());
+			telefone.setEmpresa(empresaOptional.get());
 
 			Empresa empresa = empresaOptional.get();
 			empresa.getTelefones().add(telefone);

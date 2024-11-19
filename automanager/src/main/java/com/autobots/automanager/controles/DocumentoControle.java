@@ -106,6 +106,8 @@ public class DocumentoControle {
 		try {
 			var documento = documentoRepositorio.findById(id).orElseThrow(() -> new RuntimeException("Documento não encontrado"));
 
+			documento.getUsuario().getDocumentos().remove(documento);
+
 			var permisao = verificarPermissao(authService.obterUsuarioLogado(), documento);
 			if(permisao != null) return permisao;
 

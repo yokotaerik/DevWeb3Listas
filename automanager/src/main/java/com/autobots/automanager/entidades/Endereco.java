@@ -2,6 +2,7 @@ package com.autobots.automanager.entidades;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.springframework.hateoas.RepresentationModel;
@@ -36,10 +37,12 @@ public class Endereco extends RepresentationModel<Endereco> {
 	private String informacoesAdicionais;
 
 
+	@JsonIgnore
 	@OneToOne
 	@JoinColumn(name = "usuario_id")
 	private Usuario usuario;
 
+	@JsonIgnore
 	@OneToOne
 	@JoinColumn(name = "empresa_id")
 	private Empresa empresa;

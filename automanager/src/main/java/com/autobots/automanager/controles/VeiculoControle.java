@@ -68,6 +68,7 @@ public class VeiculoControle {
 
 			var usuarioDb = usuario.get();
 			usuarioDb.getVeiculos().add(veiculo);
+			veiculo.setProprietario(usuarioDb);
 			veiculoRepositorio.save(veiculo);
 			usuarioRepositorio.save(usuarioDb);
 
@@ -97,6 +98,11 @@ public class VeiculoControle {
 	@DeleteMapping("/excluir/{id}")
 	public ResponseEntity<?> excluirVeiculo(@PathVariable Long id) {
 		try {
+			var veiculo = veiculoRepositorio.findById(id).orElseThrow(() -> new RuntimeException("Veiculo não encontrado"));
+
+			veiculo.getProprietario().getVeiculos().remove(veiculo);
+
+			usuarioRepositorio.save(veiculo.getProprietario());
 			veiculoRepositorio.deleteById(id);
 			return ResponseEntity.status(HttpStatus.OK).body("Veiculo excluído com sucesso");
 		} catch(Exception ex) {

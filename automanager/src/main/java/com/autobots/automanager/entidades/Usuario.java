@@ -38,6 +38,7 @@ public class Usuario extends RepresentationModel<Usuario> {
 	@ElementCollection(fetch = FetchType.EAGER)
 	private Set<Perfil> perfis = new HashSet<>();
 
+	@JsonIgnore()
 	@OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Telefone> telefones = new HashSet<>();
 

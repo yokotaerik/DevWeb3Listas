@@ -105,6 +105,8 @@ public class EmailControle {
 		try {
 			var email = emailRepositorio.findById(id).orElseThrow(() -> new RuntimeException("Email não encontrado"));
 
+			email.getUsuario().getEmails().remove(email);
+
 			var validacao = verificarPermissao(authService.obterUsuarioLogado(), email);
 			if(validacao != null) return validacao;
 
