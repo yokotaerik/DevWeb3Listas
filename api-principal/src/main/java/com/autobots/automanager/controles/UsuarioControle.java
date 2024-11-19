@@ -102,7 +102,7 @@ public class UsuarioControle {
 		if(!userLogado.getPerfis().contains(Perfil.ROLE_GERENTE)){
 			usuarios.removeIf(usuario -> usuario.getPerfis().contains(Perfil.ROLE_GERENTE));
 		}
-		if(userLogado.getPerfis().contains(Perfil.ROLE_VENDEDOR) && userLogado.getPerfis().size() == 1){
+		if(userLogado.getPerfis().contains(Perfil.ROLE_VENDEDOR) && userLogado.getPerfis().size() == 2){
 			usuarios.removeIf(usuario -> usuario.getPerfis().contains(Perfil.ROLE_VENDEDOR));
 		}
 

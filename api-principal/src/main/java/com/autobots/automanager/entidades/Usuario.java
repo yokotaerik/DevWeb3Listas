@@ -1,6 +1,8 @@
 package com.autobots.automanager.entidades;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -46,7 +48,7 @@ public class Usuario extends RepresentationModel<Usuario> {
 	private Credencial credencial;
 
 	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
-	private Set<Mercadoria> mercadorias = new HashSet<>();
+	private List<Mercadoria> mercadorias = new ArrayList<Mercadoria>() {};
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
 	@JsonIgnore

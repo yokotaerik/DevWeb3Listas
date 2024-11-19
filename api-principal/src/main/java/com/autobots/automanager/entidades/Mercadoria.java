@@ -45,5 +45,11 @@ public class Mercadoria extends RepresentationModel<Mercadoria> {
 
 	@JsonIgnore
 	@ManyToMany(mappedBy = "mercadorias")
-	private List<Venda> vendas = new ArrayList<Venda>();
+	private List<Venda> vendas;
+
+	@JsonIgnore
+	@ManyToOne()
+	private Usuario fornecedor;
+
+
 }

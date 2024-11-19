@@ -2,6 +2,7 @@ package com.autobots.automanager;
 
 import java.util.Date;
 
+import com.autobots.automanager.repositorios.MercadoriaRepositorio;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +33,13 @@ import com.autobots.automanager.repositorios.RepositorioEmpresa;
 public class AutomanagerApplication implements CommandLineRunner {
 
 	@Autowired
-	private RepositorioEmpresa repositorioEmpresa;
+	private RepositorioEmpresa empresaRepositorio;
 
 	@Autowired
-	private UsuarioRepositorio repositorio;
+	private UsuarioRepositorio usuarioRepositorio;
+
+	@Autowired
+	private MercadoriaRepositorio mercadoriaRepositorio;
 
 	public static void main(String[] args) {
 		SpringApplication.run(AutomanagerApplication.class, args);
@@ -102,7 +106,7 @@ public class AutomanagerApplication implements CommandLineRunner {
 		funcionario.getDocumentos().add(cpf);
 		Credencial credencialFuncionario = new Credencial();
 		credencialFuncionario.setNomeUsuario("dompedrofuncionario");
-		credencialFuncionario.setSenha("123456");
+		credencialFuncionario.setSenha(codificador.encode("123456"));
 
 		funcionario.getPerfis().add(Perfil.ROLE_GERENTE);
 
@@ -121,7 +125,7 @@ public class AutomanagerApplication implements CommandLineRunner {
 
 		Credencial credencialFornecedor = new Credencial();
 		credencialFornecedor.setNomeUsuario("dompedrofornecedor");
-		credencialFornecedor.setSenha("123456");
+		credencialFornecedor.setSenha(codificador.encode("123456"));
 
 		fornecedor.setCredencial(credencialFornecedor);
 
@@ -155,8 +159,6 @@ public class AutomanagerApplication implements CommandLineRunner {
 
 		rodaLigaLeve.setEmpresa(empresa);
 		empresa.getMercadorias().add(rodaLigaLeve);
-
-		fornecedor.getMercadorias().add(rodaLigaLeve);
 
 		Usuario cliente = new Usuario();
 		cliente.setNome("Pedro Alcântara de Bragança e Bourbon");
@@ -230,9 +232,10 @@ public class AutomanagerApplication implements CommandLineRunner {
 
 		empresa.getVendas().add(venda);
 
-		repositorioEmpresa.save(empresa);
+		empresaRepositorio.save(empresa);
 
-		repositorioEmpresa.save(empresa);
+
+		empresaRepositorio.save(empresa);
 
 		Usuario usuario = new Usuario();
 		usuario.setNome("administrador");
@@ -243,6 +246,11 @@ public class AutomanagerApplication implements CommandLineRunner {
 		String senha  = "123456";
 		credencial.setSenha(codificador.encode(senha));
 		usuario.setCredencial(credencial);
-		repositorio.save(usuario);
+		usuarioRepositorio.save(usuario);
+		usuarioRepositorio.save(fornecedor);
+		fornecedor.getMercadorias().add(rodaLigaLeve);
+		usuarioRepositorio.save(fornecedor);
+		usuarioRepositorio.save(funcionario);
+		usuarioRepositorio.save(cliente);
 	}
 }
