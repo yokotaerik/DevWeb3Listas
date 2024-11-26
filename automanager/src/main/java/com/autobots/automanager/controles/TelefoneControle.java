@@ -1,5 +1,6 @@
 package com.autobots.automanager.controles;
 
+import com.autobots.automanager.dtos.telefone.CadastroTelefoneDTO;
 import com.autobots.automanager.entidades.Cliente;
 import com.autobots.automanager.entidades.Telefone;
 import com.autobots.automanager.modelos.AdicionadorLinkTelefone;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/telefone")
+@RequestMapping("/telefones")
 public class TelefoneControle {
 
 	@Autowired
@@ -27,7 +28,7 @@ public class TelefoneControle {
 	@Autowired
 	private AdicionadorLinkTelefone adicionadorLinkTelefone;
 
-	@GetMapping("get/unique/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> obterTelefone(@PathVariable long id) {
 		var telefone = telefoneRepositorio.getById(id);
 
@@ -38,7 +39,7 @@ public class TelefoneControle {
 		return ResponseEntity.status(200).body(telefone);
 	}
 
-	@GetMapping("get/all")
+	@GetMapping("")
 	public ResponseEntity<List<Telefone>> obterTelefones() {
 		List<Telefone> telefones = telefoneRepositorio.findAll();
 		adicionadorLinkTelefone.adicionarLink(telefones);
@@ -46,11 +47,14 @@ public class TelefoneControle {
 	}
 
 	@PostMapping("/cadastro")
-	public ResponseEntity<?> cadastrarCliente(@RequestBody Telefone telefone, @RequestBody Long clienteId) {
-		Cliente cliente = clienteRepositorio.getById(clienteId);
+	public ResponseEntity<?> cadastrarCliente(@RequestBody CadastroTelefoneDTO data) {
+		Cliente cliente = clienteRepositorio.getById(data.getClienteId());
 		if (cliente == null) {
 			return ResponseEntity.status(404).body("Cliente não encontrado");
 		}
+		var telefone =  new Telefone();
+		telefone.setDdd(data.getDdd());
+		telefone.setNumero(data.getNumero());
 		cliente.getTelefones().add(telefone);
 		telefoneRepositorio.save(telefone);
 		clienteRepositorio.save(cliente);

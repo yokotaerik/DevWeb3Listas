@@ -1,5 +1,6 @@
 package com.autobots.automanager.controles;
 
+import com.autobots.automanager.dtos.enderecos.CadastroEnderecoDTO;
 import com.autobots.automanager.entidades.Cliente;
 import com.autobots.automanager.entidades.Endereco;
 import com.autobots.automanager.modelos.AdicionadorLinkEndereco;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/endereco")
+@RequestMapping("/enderecos")
 public class 	EnderecoControle {
 
 	@Autowired
@@ -24,7 +25,7 @@ public class 	EnderecoControle {
 	@Autowired
 	private AdicionadorLinkEndereco adicionadorLinkEndereco;
 
-	@GetMapping("get/unique/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> obterEndereco(@PathVariable long id) {
 		var endereco = enderecoRepositorio.getById(id);
 		if(endereco.getId() == id){
@@ -36,7 +37,7 @@ public class 	EnderecoControle {
 		}
 	}
 
-	@GetMapping("get/all")
+	@GetMapping("")
 	public ResponseEntity<?> obterEnderecos() {
 		List<Endereco> enderecos = enderecoRepositorio.findAll();
 		if(enderecos.isEmpty())
@@ -52,10 +53,19 @@ public class 	EnderecoControle {
 	}
 
 	@PostMapping("/cadastro")
-	public ResponseEntity<?> cadastrarCliente(@RequestBody Endereco endereco, @RequestBody Long clienteId) {
-		Cliente cliente = clienteRepositorio.getById(clienteId);
+	public ResponseEntity<?> cadastrarCliente(@RequestBody CadastroEnderecoDTO data) {
+		Cliente cliente = clienteRepositorio.getById(data.getClienteId());
 		if(cliente == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
 		else {
+			Endereco endereco = new Endereco();
+			endereco.setEstado(data.getEstado());
+			endereco.setCidade(data.getCidade());
+			endereco.setBairro(data.getBairro());
+			endereco.setRua(data.getRua());
+			endereco.setNumero(data.getNumero());
+			endereco.setCodigoPostal(data.getCodigoPostal());
+			endereco.setInformacoesAdicionais(data.getInformacoesAdicionais());
+
 			cliente.setEndereco((endereco));
 			enderecoRepositorio.save(endereco);
 			clienteRepositorio.save(cliente);

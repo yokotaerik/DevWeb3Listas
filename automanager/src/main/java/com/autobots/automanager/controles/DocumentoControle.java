@@ -1,5 +1,6 @@
 package com.autobots.automanager.controles;
 
+import com.autobots.automanager.dtos.documento.CadastroDocumentoDTO;
 import com.autobots.automanager.entidades.Cliente;
 import com.autobots.automanager.entidades.Documento;
 import com.autobots.automanager.modelos.AdicionadorLinkDocumento;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/documento")
+@RequestMapping("/documentos")
 public class DocumentoControle {
 
 	@Autowired
@@ -26,7 +27,7 @@ public class DocumentoControle {
 	@Autowired
 	private DocumentoAtualizador atualizarDocumento;
 
-	@GetMapping("get/unique/{id}")
+	@GetMapping("{id}")
 	public ResponseEntity<?> obterDocumento(@PathVariable long id)
 	{
 		var documento = documentoRepositorio.getById(id);
@@ -38,7 +39,7 @@ public class DocumentoControle {
 		}
 	}
 
-	@GetMapping("get/all")
+	@GetMapping("/")
 	public ResponseEntity<List<Documento>> obterDocumentos() {
 		List<Documento> documentos = documentoRepositorio.findAll();
 		if(documentos.isEmpty()){
@@ -50,11 +51,15 @@ public class DocumentoControle {
 	}
 
 	@PostMapping("/cadastro")
-	public ResponseEntity<?> cadastrarDocumento(@RequestBody Documento documento, @RequestBody Long clienteId) {
-		Cliente cliente = clienteRepositorio.getById(clienteId);
+	public ResponseEntity<?> cadastrarDocumento(@RequestBody CadastroDocumentoDTO data) {
+		Cliente cliente = clienteRepositorio.getById(data.getClienteId());
 		if(cliente == null){
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
 		} else {
+			Documento documento = new Documento();
+			documento.setTipo(data.getTipo());
+			documento.setNumero(data.getNumero());
+
 			cliente.getDocumentos().add(documento);
 			documentoRepositorio.save(documento);
 			clienteRepositorio.save(cliente);
