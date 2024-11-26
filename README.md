@@ -1,9 +1,16 @@
-# Desenvolvimento Web 3 Listas 
+# Desenvolvimento Web 3 - Listas
 
-## Para rodar o backend basta rodar a classe de Application
+## Execução do Backend
+Para rodar o backend, basta executar a classe `Application`.
 
-## ATV 1 e ATV 2 
-<p> Banco em memória </p>
+---
 
-## ATV 3 e ATV 4 e ATV5  
-<p> Banco MySQL, ir em Resources e alterar para a configuração do seu banco de dados </p>
+## Atividades 1 e 2
+O banco de dados utilizado é **em memória**.
+
+---
+
+## Atividades 3, 4 e 5
+O banco de dados utilizado é **MySQL**. Para configurar:
+1. Vá até **Resources**.
+2. Altere para a configuração do seu banco de dados.
