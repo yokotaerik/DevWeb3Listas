@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/telefone")
+@RequestMapping("/telefones")
 public class TelefoneControle {
 
 	@Autowired
@@ -19,12 +19,12 @@ public class TelefoneControle {
 	@Autowired
 	private TelefoneRepostorio telefoneRepositorio;
 
-	@GetMapping("get/unique/{id}")
+	@GetMapping("/{id}")
 	public Telefone obterTelefone(@PathVariable long id) {
 		return telefoneRepositorio.getById(id);
 	}
 
-	@GetMapping("get/all")
+	@GetMapping("")
 	public List<Telefone> obterTelefones() {
 		List<Telefone> telefones = telefoneRepositorio.findAll();
 		return telefones;

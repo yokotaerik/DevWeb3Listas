@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/documento")
+@RequestMapping("/documentos")
 public class DocumentoControle {
 
 	@Autowired
@@ -21,12 +21,12 @@ public class DocumentoControle {
 	@Autowired
 	private DocumentoRepositorio documentoRepositorio;
 
-	@GetMapping("get/unique/{id}")
+	@GetMapping("{id}")
 	public Documento obterDocumento(@PathVariable long id) {
 		return documentoRepositorio.getById(id);
 	}
 
-	@GetMapping("get/all")
+	@GetMapping("")
 	public List<Documento> obterDocumentos() {
 		List<Documento> documentos = documentoRepositorio.findAll();
 		return documentos;

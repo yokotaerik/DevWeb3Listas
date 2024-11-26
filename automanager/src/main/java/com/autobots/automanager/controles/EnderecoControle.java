@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/endereco")
+@RequestMapping("/enderecos")
 public class EnderecoControle {
 
 	@Autowired
@@ -19,12 +19,12 @@ public class EnderecoControle {
 	@Autowired
 	private EnderecoRepositorio enderecoRepositorio;
 
-	@GetMapping("get/unique/{id}")
+	@GetMapping("/{id}")
 	public Endereco obterEndereco(@PathVariable long id) {
 		return enderecoRepositorio.getById(id);
 	}
 
-	@GetMapping("get/all")
+	@GetMapping("")
 	public List<Endereco> obterEnderecos() {
 		List<Endereco> enderecos = enderecoRepositorio.findAll();
 		return enderecos;
