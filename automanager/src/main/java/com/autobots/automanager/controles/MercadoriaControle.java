@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/mercadoria")
+@RequestMapping("/mercadorias")
 public class MercadoriaControle {
 
 	@Autowired
@@ -34,7 +34,7 @@ public class MercadoriaControle {
 	@Autowired
 	private MercadoriaAtualizador atualizador;
 
-	@GetMapping("get/unique/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> obterMercadoria(@PathVariable long id)
 	{
 		var mercadoria = mercadoriaRepositorio.getById(id);
@@ -46,7 +46,7 @@ public class MercadoriaControle {
 		}
 	}
 
-	@GetMapping("get/all")
+	@GetMapping("")
 	public ResponseEntity<List<Mercadoria>> obterMercadorias() {
 		List<Mercadoria> mercadorias = mercadoriaRepositorio.findAll();
 		if(mercadorias.isEmpty()){

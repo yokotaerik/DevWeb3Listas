@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/venda")
+@RequestMapping("/vendas")
 public class VendaControle {
 
 	@Autowired
@@ -29,7 +29,7 @@ public class VendaControle {
 	@Autowired
 	private AdicionadorLinkVenda adicionadorLinkVenda;
 
-	@GetMapping("get/unique/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> obterVenda(@PathVariable long id)
 	{
 		var venda = vendaRepositorio.getById(id);
@@ -42,7 +42,7 @@ public class VendaControle {
 		}
 	}
 
-	@GetMapping("get/all")
+	@GetMapping("")
 	public ResponseEntity<?> obterVendas() {
 		List<Venda> vendas = vendaRepositorio.findAll();
 		if(vendas.isEmpty()){

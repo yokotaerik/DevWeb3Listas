@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 
 @RestController
-@RequestMapping("/credencial")
+@RequestMapping("/credenciais")
 public class CredencialControle {
 
     @Autowired

@@ -27,7 +27,7 @@ public class DocumentoControle {
 	@Autowired
 	private DocumentoAtualizador atualizarDocumento;
 
-	@GetMapping("get/unique/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> obterDocumento(@PathVariable long id)
 	{
 		var documento = documentoRepositorio.getById(id);
@@ -39,7 +39,7 @@ public class DocumentoControle {
 		}
 	}
 
-	@GetMapping("get/all")
+	@GetMapping("")
 	public ResponseEntity<List<Documento>> obterDocumentos() {
 		List<Documento> documentos = documentoRepositorio.findAll();
 		if(documentos.isEmpty()){

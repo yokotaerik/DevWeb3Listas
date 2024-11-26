@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/veiculo")
+@RequestMapping("/veiculos")
 public class VeiculoControle {
 
 	@Autowired
@@ -30,7 +30,7 @@ public class VeiculoControle {
 	@Autowired
 	private VeiculoAtualizador atualizador;
 
-	@GetMapping("get/unique/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> obterVeiculo(@PathVariable long id)
 	{
 		var veiculo = veiculoRepositorio.getById(id);
@@ -43,7 +43,7 @@ public class VeiculoControle {
 		}
 	}
 
-	@GetMapping("get/all")
+	@GetMapping("")
 	public ResponseEntity<?> obterVeiculos() {
 		List<Veiculo> veiculos = veiculoRepositorio.findAll();
 

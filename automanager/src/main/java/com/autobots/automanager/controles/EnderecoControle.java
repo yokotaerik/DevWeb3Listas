@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/endereco")
+@RequestMapping("/enderecos")
 public class EnderecoControle {
 
 	@Autowired
@@ -30,7 +30,7 @@ public class EnderecoControle {
 	@Autowired
 	private EmpresaRepositorio empresaRepositorio;
 
-	@GetMapping("get/unique/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> obterEndereco(@PathVariable long id) {
 		var endereco = enderecoRepositorio.getById(id);
 		if(endereco.getId() == id){
@@ -42,7 +42,7 @@ public class EnderecoControle {
 		}
 	}
 
-	@GetMapping("get/all")
+	@GetMapping("")
 	public ResponseEntity<?> obterEnderecos() {
 		List<Endereco> enderecos = enderecoRepositorio.findAll();
 		if(enderecos.isEmpty())

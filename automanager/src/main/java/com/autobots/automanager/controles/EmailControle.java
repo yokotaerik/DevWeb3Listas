@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/email")
+@RequestMapping("/emails")
 public class EmailControle {
 
 	@Autowired
@@ -26,7 +26,7 @@ public class EmailControle {
 	@Autowired
 	private EmailAtualizador atualizarEmail;
 
-	@GetMapping("get/unique/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> obterEmail(@PathVariable long id)
 	{
 		var email = emailRepositorio.getById(id);
@@ -38,7 +38,7 @@ public class EmailControle {
 		}
 	}
 
-	@GetMapping("get/all")
+	@GetMapping("")
 	public ResponseEntity<List<Email>> obterEmails() {
 		List<Email> emails = emailRepositorio.findAll();
 		if(emails.isEmpty()){

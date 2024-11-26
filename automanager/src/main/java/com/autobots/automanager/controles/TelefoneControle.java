@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/telefone")
+@RequestMapping("/telefones")
 public class TelefoneControle {
 
 	@Autowired
@@ -30,7 +30,7 @@ public class TelefoneControle {
 	@Autowired
 	private EmpresaRepositorio empresaRepositorio;
 
-	@GetMapping("get/unique/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> obterTelefone(@PathVariable long id) {
 		var telefone = telefoneRepositorio.getById(id);
 		if(telefone.getId() == id){
@@ -42,7 +42,7 @@ public class TelefoneControle {
 		}
 	}
 
-	@GetMapping("get/all")
+	@GetMapping("")
 	public ResponseEntity<?> obterTelefones() {
 		List<Telefone> telefones = telefoneRepositorio.findAll();
 		if(telefones.isEmpty())

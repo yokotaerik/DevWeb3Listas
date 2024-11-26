@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/servico")
+@RequestMapping("/servicos")
 public class ServicoControle {
 
 	@Autowired
@@ -29,7 +29,7 @@ public class ServicoControle {
 	@Autowired
 	private ServicoAtualizador atualizador;
 
-	@GetMapping("get/unique/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> obterServico(@PathVariable long id)
 	{
 		var servico = servicoRepositorio.getById(id);
@@ -41,7 +41,7 @@ public class ServicoControle {
 		}
 	}
 
-	@GetMapping("get/all")
+	@GetMapping("")
 	public ResponseEntity<List<Servico>> obterServicos() {
 		List<Servico> servicos = servicoRepositorio.findAll();
 		if(servicos.isEmpty()){

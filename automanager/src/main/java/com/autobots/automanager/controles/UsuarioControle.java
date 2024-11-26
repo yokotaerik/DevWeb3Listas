@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/usuario")
+@RequestMapping("/usuarios")
 public class UsuarioControle {
 
 	@Autowired
@@ -25,7 +25,7 @@ public class UsuarioControle {
 	@Autowired
 	private UsuarioAtualizador atualizador;
 
-	@GetMapping("get/unique/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> obterUsuario(@PathVariable long id)
 	{
 		var usuario = usuarioRepositorio.getById(id);
@@ -38,7 +38,7 @@ public class UsuarioControle {
 		}
 	}
 
-	@GetMapping("get/all")
+	@GetMapping("")
 	public ResponseEntity<?> obterUsuarios() {
 		List<Usuario> usuarios = usuarioRepositorio.findAll();
 		if(usuarios.isEmpty()){
