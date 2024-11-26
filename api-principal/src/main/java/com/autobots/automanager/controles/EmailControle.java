@@ -34,7 +34,7 @@ public class EmailControle {
 	private AuthService authService;
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
-	@GetMapping("get/unique/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> obterEmail(@PathVariable long id)
 	{
 		var email = emailRepositorio.getById(id);
@@ -51,7 +51,7 @@ public class EmailControle {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@GetMapping("get/all")
+	@GetMapping("")
 	public ResponseEntity<List<Email>> obterEmails() {
 		List<Email> emails = emailRepositorio.findAll();
 		if(emails.isEmpty()){

@@ -32,7 +32,7 @@ public class MercadoriaController {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token JWT inválido ou ausente.");
 		}
 
-		String url = buildUrl("/mercadoria/get/all");
+		String url = buildUrl("/mercadoria/");
 		HttpEntity<Void> entity = new HttpEntity<>(createHeaders(token));
 
 		try {
@@ -61,7 +61,7 @@ public class MercadoriaController {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token JWT inválido ou ausente.");
 		}
 
-		String url = buildUrl("/mercadoria/get/unique/{mercadoriaId}", mercadoriaId);
+		String url = buildUrl("/mercadoria//{mercadoriaId}", mercadoriaId);
 		HttpEntity<Void> entity = new HttpEntity<>(createHeaders(token));
 
 		try {

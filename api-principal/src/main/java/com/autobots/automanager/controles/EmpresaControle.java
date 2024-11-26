@@ -28,7 +28,7 @@ public class EmpresaControle {
 	private EmpresaAtualizador atualizador;
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@GetMapping("get/unique/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> obterEmpresa(@PathVariable long id)
 	{
 		var empresa = empresaRepositorio.getById(id);
@@ -42,7 +42,7 @@ public class EmpresaControle {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@GetMapping("get/all")
+	@GetMapping("")
 	public ResponseEntity<?> obterEmpresas() {
 
 		List<Empresa> empresas = empresaRepositorio.findAll();

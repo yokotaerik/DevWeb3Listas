@@ -36,7 +36,7 @@ public class TelefoneControle {
 	private AuthService authService;
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
-	@GetMapping("get/unique/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> obterTelefone(@PathVariable long id) {
 		var telefone = telefoneRepositorio.findById(id).orElse(null);
 
@@ -54,7 +54,7 @@ public class TelefoneControle {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@GetMapping("get/all")
+	@GetMapping("")
 	public ResponseEntity<?> obterTelefones() {
 		List<Telefone> telefones = telefoneRepositorio.findAll();
 		if(telefones.isEmpty())

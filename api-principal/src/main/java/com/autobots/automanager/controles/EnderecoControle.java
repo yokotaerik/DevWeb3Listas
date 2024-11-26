@@ -37,7 +37,7 @@ public class EnderecoControle {
 	private AuthService authService;
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
-	@GetMapping("get/unique/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> obterEndereco(@PathVariable long id) {
 		var endereco = enderecoRepositorio.findById(id).orElse(null);
 
@@ -54,7 +54,7 @@ public class EnderecoControle {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@GetMapping("get/all")
+	@GetMapping("")
 	public ResponseEntity<?> obterEnderecos() {
 		List<Endereco> enderecos = enderecoRepositorio.findAll();
 		if(enderecos.isEmpty())

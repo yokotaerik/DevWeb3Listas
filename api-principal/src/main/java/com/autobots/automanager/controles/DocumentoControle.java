@@ -34,7 +34,7 @@ public class DocumentoControle {
 	private AuthService authService;
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
-	@GetMapping("get/unique/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> obterDocumento(@PathVariable long id)
 	{
 		var documento = documentoRepositorio.getById(id);
@@ -50,7 +50,7 @@ public class DocumentoControle {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@GetMapping("get/all")
+	@GetMapping("")
 	public ResponseEntity<List<Documento>> obterDocumentos() {
 		List<Documento> documentos = documentoRepositorio.findAll();
 		if(documentos.isEmpty()){

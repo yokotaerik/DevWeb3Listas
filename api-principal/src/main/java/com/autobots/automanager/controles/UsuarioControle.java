@@ -73,7 +73,7 @@ public class UsuarioControle {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
-	@GetMapping("get/unique/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> obterUsuario(@PathVariable long id)
 	{
 		var usuario = usuarioRepositorio.findById(id).orElse(null);
@@ -91,7 +91,7 @@ public class UsuarioControle {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
-	@GetMapping("get/all")
+	@GetMapping("")
 	public ResponseEntity<?> obterUsuarios() {
 		List<Usuario> usuarios = usuarioRepositorio.findAll();
 

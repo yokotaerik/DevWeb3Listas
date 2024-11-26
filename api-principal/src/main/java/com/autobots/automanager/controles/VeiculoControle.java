@@ -32,7 +32,7 @@ public class VeiculoControle {
 	private VeiculoAtualizador atualizador;
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
-	@GetMapping("get/unique/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> obterVeiculo(@PathVariable long id)
 	{
 		var veiculo = veiculoRepositorio.getById(id);
@@ -46,7 +46,7 @@ public class VeiculoControle {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
-	@GetMapping("get/all")
+	@GetMapping("")
 	public ResponseEntity<?> obterVeiculos() {
 		List<Veiculo> veiculos = veiculoRepositorio.findAll();
 

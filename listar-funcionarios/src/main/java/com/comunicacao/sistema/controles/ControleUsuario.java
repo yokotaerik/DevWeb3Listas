@@ -32,7 +32,7 @@ public class ControleUsuario {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token JWT inválido ou ausente.");
 		}
 
-		String url = buildUrl("/usuario/get/all", empresaId);
+		String url = buildUrl("/usuario/", empresaId);
 		HttpEntity<Void> entity = new HttpEntity<>(createHeaders(token));
 
 		try {
@@ -60,7 +60,7 @@ public class ControleUsuario {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token JWT inválido ou ausente.");
 		}
 
-		String url = buildUrl("/usuario/get/unique/{usuarioId}", usuarioId);
+		String url = buildUrl("/usuario//{usuarioId}", usuarioId);
 		HttpEntity<Void> entity = new HttpEntity<>(createHeaders(token));
 
 		try {

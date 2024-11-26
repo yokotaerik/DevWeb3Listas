@@ -51,7 +51,7 @@ public class VendaControle {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE')")
-	@GetMapping("get/unique/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> obterVenda(@PathVariable long id)
 	{
 		var venda = vendaRepositorio.findById(id);
@@ -65,7 +65,7 @@ public class VendaControle {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE')")
-	@GetMapping("get/all")
+	@GetMapping("")
 	public ResponseEntity<?> obterVendas() {
 		try {
 			List<Venda> vendas = vendaRepositorio.findAll();

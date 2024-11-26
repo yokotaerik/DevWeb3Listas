@@ -37,7 +37,7 @@ public class MercadoriaControle {
 	private MercadoriaAtualizador atualizador;
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
-	@GetMapping("get/unique/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> obterMercadoria(@PathVariable long id)
 	{
 		var mercadoria = mercadoriaRepositorio.getById(id);
@@ -51,7 +51,7 @@ public class MercadoriaControle {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
-	@GetMapping("get/all")
+	@GetMapping("")
 	public ResponseEntity<?> obterMercadorias() {
 		List<Mercadoria> mercadorias = mercadoriaRepositorio.findAll();
 		if(mercadorias.isEmpty()){

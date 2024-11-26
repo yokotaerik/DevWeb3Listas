@@ -37,7 +37,7 @@ public class ControleVeiculos {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token JWT inválido ou ausente.");
 		}
 
-		String url = UriComponentsBuilder.fromHttpUrl(BASE_URL + "/venda/get/all").toUriString();
+		String url = UriComponentsBuilder.fromHttpUrl(BASE_URL + "/venda/").toUriString();
 		HttpHeaders headers = createHeaders(token);
 		HttpEntity<Void> entity = new HttpEntity<>(headers);
 
@@ -74,7 +74,7 @@ public class ControleVeiculos {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token JWT inválido ou ausente.");
 		}
 
-		String url = UriComponentsBuilder.fromHttpUrl(BASE_URL + "/veiculo/get/unique/{veiculoId}")
+		String url = UriComponentsBuilder.fromHttpUrl(BASE_URL + "/veiculo//{veiculoId}")
 				.buildAndExpand(veiculoId)
 				.toUriString();
 
