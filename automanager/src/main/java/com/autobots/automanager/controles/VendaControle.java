@@ -18,7 +18,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/venda")
+@RequestMapping("/vendas")
 public class VendaControle {
 
 	@Autowired
@@ -51,7 +51,7 @@ public class VendaControle {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE')")
-	@GetMapping("get/unique/{id}")
+	@GetMapping("empresaRepositorio/{id}")
 	public ResponseEntity<?> obterVenda(@PathVariable long id)
 	{
 		var venda = vendaRepositorio.getById(id);

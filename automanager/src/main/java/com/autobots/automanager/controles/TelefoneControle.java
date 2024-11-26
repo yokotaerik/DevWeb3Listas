@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/telefone")
+@RequestMapping("/telefones")
 public class TelefoneControle {
 
 	@Autowired
@@ -36,7 +36,7 @@ public class TelefoneControle {
 	private AuthService authService;
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
-	@GetMapping("get/unique/{id}")
+	@GetMapping("empresaRepositorio/{id}")
 	public ResponseEntity<?> obterTelefone(@PathVariable long id) {
 		var telefone = telefoneRepositorio.findById(id).orElse(null);
 

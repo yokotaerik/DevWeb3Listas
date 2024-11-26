@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/documento")
+@RequestMapping("/documentos")
 public class DocumentoControle {
 
 	@Autowired
@@ -34,7 +34,7 @@ public class DocumentoControle {
 	private AuthService authService;
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
-	@GetMapping("get/unique/{id}")
+	@GetMapping("empresaRepositorio/{id}")
 	public ResponseEntity<?> obterDocumento(@PathVariable long id)
 	{
 		var documento = documentoRepositorio.getById(id);

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/veiculo")
+@RequestMapping("/veiculos")
 public class VeiculoControle {
 
 	@Autowired
@@ -32,7 +32,7 @@ public class VeiculoControle {
 	private VeiculoAtualizador atualizador;
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
-	@GetMapping("get/unique/{id}")
+	@GetMapping("empresaRepositorio/{id}")
 	public ResponseEntity<?> obterVeiculo(@PathVariable long id)
 	{
 		var veiculo = veiculoRepositorio.getById(id);

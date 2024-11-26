@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/mercadoria")
+@RequestMapping("/mercadorias")
 public class MercadoriaControle {
 
 	@Autowired
@@ -36,7 +36,7 @@ public class MercadoriaControle {
 	private MercadoriaAtualizador atualizador;
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
-	@GetMapping("get/unique/{id}")
+	@GetMapping("empresaRepositorio/{id}")
 	public ResponseEntity<?> obterMercadoria(@PathVariable long id)
 	{
 		var mercadoria = mercadoriaRepositorio.getById(id);

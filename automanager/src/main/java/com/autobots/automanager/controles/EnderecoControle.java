@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/endereco")
+@RequestMapping("/enderecos")
 public class EnderecoControle {
 
 	@Autowired
@@ -37,7 +37,7 @@ public class EnderecoControle {
 	private AuthService authService;
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
-	@GetMapping("get/unique/{id}")
+	@GetMapping("empresaRepositorio/{id}")
 	public ResponseEntity<?> obterEndereco(@PathVariable long id) {
 		var endereco = enderecoRepositorio.findById(id).orElse(null);
 

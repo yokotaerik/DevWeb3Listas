@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/empresa")
+@RequestMapping("/empresas")
 public class EmpresaControle {
 
 	@Autowired
@@ -28,7 +28,7 @@ public class EmpresaControle {
 	private EmpresaAtualizador atualizador;
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@GetMapping("get/unique/{id}")
+	@GetMapping("empresaRepositorio/{id}")
 	public ResponseEntity<?> obterEmpresa(@PathVariable long id)
 	{
 		var empresa = empresaRepositorio.getById(id);

@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/usuario")
+@RequestMapping("/usuarios")
 public class UsuarioControle {
 
 	@Autowired
@@ -69,7 +69,7 @@ public class UsuarioControle {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
-	@GetMapping("get/unique/{id}")
+	@GetMapping("empresaRepositorio/{id}")
 	public ResponseEntity<?> obterUsuario(@PathVariable long id)
 	{
 		var usuario = usuarioRepositorio.findById(id).orElse(null);

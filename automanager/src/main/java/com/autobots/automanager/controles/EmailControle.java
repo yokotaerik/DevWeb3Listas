@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/email")
+@RequestMapping("/emails")
 public class EmailControle {
 
 	@Autowired
@@ -34,7 +34,7 @@ public class EmailControle {
 	private AuthService authService;
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'GERENTE', 'VENDEDOR')")
-	@GetMapping("get/unique/{id}")
+	@GetMapping("empresaRepositorio/{id}")
 	public ResponseEntity<?> obterEmail(@PathVariable long id)
 	{
 		var email = emailRepositorio.getById(id);
